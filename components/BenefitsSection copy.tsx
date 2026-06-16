@@ -77,40 +77,39 @@ export default function BenefitsSection() {
             </p>
           </div>
         </div>
-        <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-          {services.map((service) => (
+        <div className="relative flex flex-col px-2 md:grid md:grid-cols-2 md:gap-6 md:px-0 lg:grid-cols-4">
+          {services.map((service, index) => (
             <article
               key={service.title}
-              className=" mx-5  md:mx-1 group relative h-[520px] overflow-hidden rounded-[2rem] border-[3px] border-[#FFF7EC] bg-[#3A2116] shadow-[0_14px_32px_rgba(47,31,20,0.18)] md:h-[430px] lg:h-[420px]"
+              style={{
+                zIndex: index + 10,
+                top: `calc(5.2rem + ${index * 18}px)`,
+              }}
+              className="group sticky mx-auto mb-[10vh] h-[430px] w-full  border-[3px] max-w-[420px] overflow-hidden rounded-[1.9rem] border-[#FFF7EC]/90 bg-[#2F241D] shadow-[0_24px_70px_rgba(47,31,20,0.35)] md:relative md:top-auto md:z-auto md:mb-0 md:mx-0 md:h-[430px] md:max-w-none md:rounded-[2rem] lg:h-[420px]"
             >
               <Image
                 src={service.image}
                 alt={service.title}
                 fill
-                sizes="(max-width: 768px) 100vw, 25vw"
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                sizes="(max-width: 768px) 92vw, 25vw"
+                className="object-cover transition-transform duration-700 ease-out md:group-hover:scale-105"
               />
 
-              {/* Sombra base */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent" />
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1D1511]/92 via-[#1D1511]/42 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-transparent to-transparent" />
 
-              {/* Sombra extra */}
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.28),transparent_58%)]" />
-
-              {/* Oscurece en hover */}
-              <div className="absolute inset-0 bg-black/0 transition-colors duration-500 md:group-hover:bg-black/50" />
-
-              {/* Contenido */}
-              <div className="absolute inset-x-0 bottom-0 z-10 flex h-[230px] -translate-y-20 flex-col items-center justify-start px-6 pt-8 text-center md:h-[215px] md:px-7 md:pt-0">
-                <h3 className="title-card flex min-h-[76px] max-w-[95%] translate-y-15 items-center justify-center !text-3xl leading-none text-[#FFF7EC] [text-shadow:0_4px_14px_rgba(0,0,0,0.65)] md:-translate-y-20 md:!text-3xl lg:!text-[2rem]">
+              {/* Contenido alineado */}
+              <div className="absolute inset-x-0 bottom-0 z-10 flex h-[225px] flex-col justify-start px-7 pt-8 text-left md:h-[215px] md:px-7 md:pt-8 lg:h-[215px]">
+                <h3 className="title-card min-h-[78px] max-w-[92%] !text-[2rem] leading-[0.92] text-[#FFF7EC] [text-shadow:0_4px_16px_rgba(0,0,0,0.55)] md:!text-[2rem] lg:!text-[2rem]">
                   {service.title}
                 </h3>
 
-                <p className="text-body -mt-4 max-w-[92%] translate-y-15 text-center text-[15px] !leading-normal text-[#FFF7EC]/88 opacity-100 transition-all duration-500 ease-out md:mt-1 md:-translate-y-20 md:opacity-0 md:group-hover:-translate-y-20 md:group-hover:opacity-100">
+                <p className="text-body -mt-10 max-w-[92%] text-[14.5px] !leading-normal text-[#FFF7EC]/84 opacity-100 transition-all duration-500 ease-out md:mt-3 md:translate-y-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
                   {service.description}
                 </p>
 
-                <span className="absolute bottom-0 left-1/2 z-20 hidden h-[4px] w-12 -translate-x-1/2 translate-y-12 origin-center rounded-full bg-[#F3D7BA]/85 transition-transform duration-300 md:block md:group-hover:scale-x-150" />
+                <span className="mt-auto h-[3px] w-11 rounded-full bg-[#F3D7BA]/85 transition-all duration-300 md:group-hover:w-20" />
               </div>
             </article>
           ))}

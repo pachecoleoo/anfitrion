@@ -6,10 +6,10 @@ import { useEffect, useRef, useState } from "react";
 import BrandButton from "@/components/BrandButton";
 
 const links = [
-  { label: "Experiencias", href: "#experiencias" },
-  { label: "Eventos", href: "#eventos" },
-  { label: "Tienda", href: "#tienda" },
-  { label: "Galería", href: "#galeria" },
+  { label: "Nuestra Esencia", href: "#Nosotros" },
+  { label: "Eventos", href: "#Eventos" },
+  { label: "Beneficios", href: "#Beneficios" },
+  { label: "Contacto", href: "#Contacto" },
 ];
 
 export default function Navbar() {

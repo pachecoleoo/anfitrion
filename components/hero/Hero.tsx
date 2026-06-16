@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-[#2B1A10] pt-24">
+    <section className="relative h-[100svh] overflow-hidden bg-[#2B1A10]">
       {/* Video de fondo */}
       <video
         className="absolute inset-0 h-full w-full object-cover"
@@ -13,60 +13,56 @@ export default function Hero() {
         loop
         playsInline
       />
+      <div className="absolute inset-0 bg-[#2B1A10]/55" />
 
-      {/* Capas oscuras */}
-      {/* <div className="absolute inset-0 bg-black/50" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/45 to-black/20" />
-      <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black/70 to-transparent" /> */}
+      {/* Capas cálidas
+      <div className="absolute inset-0 bg-gradient-to-r from-[#2B1A10]/90 via-[#2B1A10]/55 to-[#2B1A10]/20" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#2B1A10]/75 to-transparent" /> */}
 
-      {/* Sello sutil */}
-      {/* <Image
-        src="/images/branding/Recurso 28.png"
+      {/* Sello */}
+      <Image
+        src="/images/hero/Recurso 29.png"
         alt="Sello Anfitrión Café"
-        width={380}
-        height={380}
-        className="pointer-events-none absolute right-8 top-32 hidden rotate-12 opacity-15 md:block lg:right-20"
+        width={220}
+        height={220}
         priority
-      /> */}
+        className="pointer-events-none absolute right-10 bottom-16 z-10 hidden h-auto w-36 rotate-[8deg] drop-shadow-[0_18px_35px_rgba(0,0,0,0.35)] md:block lg:right-18 lg:bottom-18 lg:w-35"
+      />
 
       {/* Contenido */}
-      <div className="relative z-10 mx-auto flex min-h-[calc(100vh-96px)] max-w-7xl items-center px-8">
+      <div className="relative z-20 mx-auto flex h-full max-w-7xl items-center px-5 pt-24 pb-20 md:px-10 lg:px-16">
         <div className="max-w-5xl">
-          <p className="text-label mb-6 text-[#E8DFD2]">Barra móvil de café</p>
-
-          <h1 className="font-title text-8xl text-white">
+          <h1 className=" my-10 mx-5 font-title max-w-3xl text-[3.8rem] leading-[0.75] text-[#FFF7EC] md:text-[4.8rem] lg:text-[5.2rem]">
             Hacemos de tu evento <br /> una experiencia
           </h1>
 
-          <p className="text-body mt-8 max-w-2xl text-white/85 md:text-xl">
-            Llevamos café de especialidad, baristas profesionales y una barra
-            completamente equipada a eventos, oficinas y celebraciones.
+          <p className="font-subtitle mx-5 mt-7 max-w-2xl text-2xl leading-tight text-[#E8DFD2] md:text-3xl">
+            Café de especialidad para recibir, <br /> acompañar y crear momentos
+            memorables.
           </p>
 
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+          {/* <p className="text-body mx-5 mt-5 max-w-2xl text-[#FFF7EC]/85 md:text-lg">
+            Llevamos baristas profesionales y <br /> una barra completamente
+            equipada a eventos, <br />
+            oficinas y celebraciones.
+          </p> */}
+
+          <div className="  md:block mt-9 flex mx-5 flex-col gap-4 sm:flex-row">
             <Link
               href="#contacto"
-              className="font-button bg-[#8D1E29] px-8 py-4 text-center text-sm uppercase tracking-wide text-white transition duration-300 hover:-translate-y-1 hover:bg-[#701521]"
+              className="  mx-1 font-button inline-flex items-center justify-center rounded-full bg-[#8D1E29] px-8 py-4 text-center text-xs uppercase tracking-[0.22em] text-[#FFF7EC] shadow-[0_14px_35px_rgba(141,30,41,0.35)] transition duration-300 hover:-translate-y-1 hover:bg-[#701521]"
             >
               Solicitar presupuesto
             </Link>
 
             <Link
               href="#servicios"
-              className="font-button border border-white/45 px-8 py-4 text-center text-sm uppercase tracking-wide text-white transition duration-300 hover:-translate-y-1 hover:bg-white hover:text-[#8D1E29]"
+              className=" mx-1 font-button inline-flex items-center justify-center rounded-full border border-[#FFF7EC]/45 bg-[#FFF7EC]/10 px-8 py-4 text-center text-xs uppercase tracking-[0.22em] text-[#FFF7EC] backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:bg-[#FFF7EC] hover:text-[#8D1E29]"
             >
               Ver servicios
             </Link>
           </div>
         </div>
-      </div>
-
-      {/* Scroll */}
-      <div className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-3 text-white/70 md:flex">
-        <span className="text-label text-[0.65rem] tracking-[0.35em]">
-          Scroll
-        </span>
-        <span className="h-10 w-px bg-white/40" />
       </div>
     </section>
   );

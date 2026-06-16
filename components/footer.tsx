@@ -118,7 +118,7 @@ export default function Footer() {
                   href="mailto:hola@anfitrioncafe.com"
                   className="transition hover:text-[#c98b55]"
                 >
-                  hola@anfitrioncafe.com
+                  anfitrioncafe@gmail.com{" "}
                 </a>
               </p>
 
@@ -131,6 +131,17 @@ export default function Footer() {
                   className="transition hover:text-[#c98b55]"
                 >
                   @anfitrion.cafe
+                </a>
+              </p>
+              <p>
+                <span className="block text-[#f5efe5]">Whatsapp</span>
+                <a
+                  href="https://www.instagram.com/anfitrion.cafe"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition hover:text-[#c98b55]"
+                >
+                  2995230382
                 </a>
               </p>
             </div>
