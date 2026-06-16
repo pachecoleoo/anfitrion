@@ -8,7 +8,7 @@ const benefits = [
     title: "Una experiencia memorable",
     description:
       "Convertimos una pausa de café en un momento especial para invitados, equipos o clientes.",
-    image: "/images/beneficios/uno.jpg",
+    image: "/images/beneficios/uno.JPG",
   },
   {
     title: "Servicio pensado a medida",
@@ -20,13 +20,13 @@ const benefits = [
     title: "Montaje ágil y cuidado",
     description:
       "Llegamos con todo lo necesario para que el servicio funcione de forma ordenada, estética y sin complicaciones.",
-    image: "/images/beneficios/1.jpg",
+    image: "/images/beneficios/1.JPG",
   },
   {
     title: "Café de especialidad",
     description:
       "Trabajamos con una propuesta de calidad, cuidando cada detalle: sabor, presentación y atención.",
-    image: "/images/beneficios/tres.jpg",
+    image: "/images/beneficios/tres.JPG",
   },
 ];
 
@@ -78,7 +78,7 @@ export default function Services() {
     >
       {/* Sticker */}
       <img
-        src="/images/stickers/Recurso 24.svg"
+        src="/images/stickers/Recurso24.svg"
         alt="El servicio como vocación, el café como excusa"
         className="absolute right-4 top-0 z-30 hidden w-44 rotate-[10deg] drop-shadow-[0_18px_25px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out hover:-translate-y-2 hover:rotate-[7deg] hover:scale-[1.03] md:block lg:right-20 lg:w-64"
       />

@@ -5,13 +5,13 @@ const benefits = [
     title: "Una experiencia memorable",
     description:
       "Convertimos una pausa de café en un momento especial para invitados, equipos o clientes.",
-    image: "/images/beneficios/uno.jpg",
+    image: "/images/beneficios/uno.JPG",
   },
   {
     title: "Servicio pensado a medida",
     description:
       "Adaptamos la propuesta según el tipo de evento, cantidad de personas, espacio y estilo de la marca.",
-    image: "/images/beneficios/dos.jpg",
+    image: "/images/beneficios/uno.jpg",
   },
   {
     title: "Montaje ágil y cuidado",

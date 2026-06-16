@@ -12,7 +12,7 @@ const services = [
     title: "Eventos corporativos",
     description:
       "Activaciones de marca, inauguraciones, congresos y lanzamientos donde el café se convierte en una experiencia memorable para invitados, clientes y equipos.",
-    image: "/images/beneficios/dos.jpg",
+    image: "/images/beneficios/dos.JPG",
   },
   {
     title: "Eventos sociales",
