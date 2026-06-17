@@ -116,7 +116,7 @@ export default function ContactSection() {
 
       {/* Sticker decorativo */}
       <img
-        src="/images/stickers/recurso 20.svg"
+        src="/images/stickers/Recurso 6.png"
         alt=""
         className={`absolute -right-7 top-10 z-40 w-40 rotate-12 transition-all delay-500 duration-700 ease-out hover:-translate-y-[5%] md:-right-7 md:top-20 md:block lg:w-52 ${
           isVisible

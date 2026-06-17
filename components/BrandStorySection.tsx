@@ -57,7 +57,7 @@ export default function BrandStorySection() {
 
           {/* Sticker */}
           <img
-            src="/images/stickers/recurso 21.svg"
+            src="/images/stickers/Recurso 5.png"
             alt=""
             className={`pointer-events-none absolute -right-6 -top-8 w-32 drop-shadow-[0_12px_20px_rgba(47,31,20,0.25)] transition-all duration-700 ease-out md:w-40 ${
               isVisible

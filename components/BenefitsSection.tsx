@@ -1,29 +1,39 @@
+"use client";
+
 import Image from "next/image";
-const stackTops = ["top-20", "top-24", "top-28", "top-32"];
-const mobileStackTops = ["top-24", "top-28", "top-32", "top-36"];
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "motion/react";
+
 const services = [
   {
     title: "Fechas especiales",
     description:
       "Aniversarios, celebraciones privadas y regalos pensados para sorprender con un servicio cálido, personalizado y diferente.",
+    mobileDescription: "Café y detalles especiales para celebraciones únicas.",
     image: "/images/varias/8.jpg",
   },
   {
     title: "Eventos corporativos",
     description:
       "Activaciones de marca, inauguraciones, congresos y lanzamientos donde el café se convierte en una experiencia memorable para invitados, clientes y equipos.",
+    mobileDescription:
+      "Una barra de café para marcas, equipos y eventos empresariales.",
     image: "/images/beneficios/dos.JPG",
   },
   {
     title: "Eventos sociales",
     description:
       "Casamientos, cumpleaños y encuentros íntimos acompañados por café de especialidad y baristas profesionales.",
+    mobileDescription:
+      "Café de especialidad para encuentros sociales y momentos compartidos.",
     image: "/images/varias/6.jpg",
   },
   {
     title: "Oficinas con sabor",
     description:
       "Una pausa distinta para agasajar a tu equipo, mejorar la jornada y generar un momento de encuentro dentro del espacio de trabajo.",
+    mobileDescription:
+      "Una pausa diferente para disfrutar café en el espacio de trabajo.",
     image: "/images/varias/4.jpg",
   },
 ];
@@ -37,7 +47,7 @@ export default function BenefitsSection() {
       {/* Sticker superior izquierdo */}
       <div className="pointer-events-none absolute z-20 -translate-y-[9.5rem] transition-transform duration-300 hover:-translate-y-40 hover:rotate-[7deg] hover:scale-[1.03] md:pointer-events-auto md:-translate-x-10 md:block">
         <img
-          src="/images/stickers/recurso 19.svg"
+          src="/images/stickers/Recurso 3.png"
           alt=""
           className="w-40 -rotate-[20deg] drop-shadow-[0_12px_20px_rgba(47,31,20,0.25)] lg:w-50"
         />
@@ -77,45 +87,190 @@ export default function BenefitsSection() {
             </p>
           </div>
         </div>
-        <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+
+        {/* Desktop: grid estático original */}
+        <div className="hidden gap-6 md:grid md:grid-cols-2 lg:grid-cols-4">
           {services.map((service) => (
-            <article
-              key={service.title}
-              className=" mx-5  md:mx-1 group relative h-[520px] overflow-hidden rounded-[2rem] border-[3px] border-[#FFF7EC] bg-[#3A2116] shadow-[0_14px_32px_rgba(47,31,20,0.18)] md:h-[430px] lg:h-[420px]"
-            >
-              <Image
-                src={service.image}
-                alt={service.title}
-                fill
-                sizes="(max-width: 768px) 100vw, 25vw"
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-              />
-
-              {/* Sombra base */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent" />
-
-              {/* Sombra extra */}
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.28),transparent_58%)]" />
-
-              {/* Oscurece en hover */}
-              <div className="absolute inset-0 bg-black/0 transition-colors duration-500 md:group-hover:bg-black/50" />
-
-              {/* Contenido */}
-              <div className="absolute inset-x-0 bottom-0 z-10 flex h-[230px] -translate-y-20 flex-col items-center justify-start px-6 pt-8 text-center md:h-[215px] md:px-7 md:pt-0">
-                <h3 className="title-card flex min-h-[76px] max-w-[95%] translate-y-15 items-center justify-center !text-3xl leading-none text-[#FFF7EC] [text-shadow:0_4px_14px_rgba(0,0,0,0.65)] md:-translate-y-20 md:!text-3xl lg:!text-[2rem]">
-                  {service.title}
-                </h3>
-
-                <p className="text-body -mt-4 max-w-[92%] translate-y-15 text-center text-[15px] !leading-normal text-[#FFF7EC]/88 opacity-100 transition-all duration-500 ease-out md:mt-1 md:-translate-y-20 md:opacity-0 md:group-hover:-translate-y-20 md:group-hover:opacity-100">
-                  {service.description}
-                </p>
-
-                <span className="absolute bottom-0 left-1/2 z-20 hidden h-[4px] w-12 -translate-x-1/2 translate-y-12 origin-center rounded-full bg-[#F3D7BA]/85 transition-transform duration-300 md:block md:group-hover:scale-x-150" />
-              </div>
-            </article>
+            <ServiceCard key={service.title} service={service} />
           ))}
         </div>
       </div>
+
+      {/* Mobile: stack scroll-driven */}
+      <div className="md:hidden">
+        <MobileCardStack />
+      </div>
     </section>
+  );
+}
+
+function ServiceCard({ service }: { service: (typeof services)[number] }) {
+  return (
+    <article className="group relative flex h-[460px] flex-col overflow-hidden rounded-[1.4rem] bg-[#14100D] shadow-[0_2px_8px_rgba(0,0,0,0.16),0_22px_45px_-12px_rgba(0,0,0,0.42)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_5px_15px_rgba(0,0,0,0.18),0_34px_70px_-16px_rgba(0,0,0,0.55)] md:h-[460px] lg:h-[480px]">
+      {/* Imagen */}
+      <div className="relative flex-1 overflow-hidden">
+        <Image
+          src={service.image}
+          alt={service.title}
+          fill
+          sizes="(max-width: 768px) 100vw, 25vw"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+        />
+
+        {/* Oscurece un poco la imagen en hover */}
+        <div className="absolute inset-0 bg-[#100C09]/10 transition-colors duration-500 group-hover:bg-[#100C09]/28" />
+
+        {/* Degradé más largo y suave */}
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(to_top,#14100D_0%,rgba(20,16,13,0.96)_18%,rgba(20,16,13,0.78)_42%,rgba(20,16,13,0.34)_72%,transparent_100%)]" />
+      </div>
+
+      {/* Texto oscuro, integrado a la imagen */}
+      <div className="relative flex flex-col gap-2 bg-[linear-gradient(180deg,#14100D_0%,#0F0B09_100%)] px-6 py-5">
+        <span className="h-[2px] w-7 rounded-full bg-[#F3D7BA]/65 transition-all duration-500 group-hover:w-12 group-hover:bg-[#FFF7EC]" />
+
+        <h3 className="title-card !text-xl leading-tight text-[#FFF7EC] transition-colors duration-500 lg:!text-[1.4rem]">
+          {service.title}
+        </h3>
+
+        <p className="text-body grid text-[14px] !leading-snug text-[#F3D7BA]/75 transition-all duration-500 ease-out [grid-template-rows:0fr] group-hover:[grid-template-rows:1fr] group-hover:text-[#FFF7EC]/88">
+          <span className="overflow-hidden opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+            {service.description}
+          </span>
+        </p>
+      </div>
+    </article>
+  );
+}
+
+function MobileCardStack() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const total = services.length;
+
+  // Wrapper alto: controla la velocidad del scroll-driven animation.
+  // Subí este número (vh) para que el ciclo sea más LENTO (hay que scrollear
+  // más para pasar las 4 cards). Bajalo para que sea más rápido.
+  // 250vh = rápido | 300vh = actual | 400vh = muy lento / cinematográfico.
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  return (
+    <div ref={containerRef} className="relative h-[500vh]">
+      <div className="sticky top-0 flex h-screen items-center justify-center -mb-30 overflow-hidden px-6">
+        <div className="relative h-[480px] w-full max-w-[470px]">
+          {services.map((service, i) => (
+            <StackCard
+              key={service.title}
+              service={service}
+              index={i}
+              total={total}
+              scrollYProgress={scrollYProgress}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StackCard({
+  service,
+  index,
+  total,
+  scrollYProgress,
+}: {
+  service: (typeof services)[number];
+  index: number;
+  total: number;
+  scrollYProgress: ReturnType<typeof useScroll>["scrollYProgress"];
+}) {
+  // Cada card ocupa una "rebanada" igual del progreso total de scroll.
+  const step = 1 / total;
+  const start = index * step;
+  const end = start + step;
+  const isLast = index === total - 1;
+
+  // Offset de reposo: cuánto asoma esta card por debajo de la que tiene
+  // delante, como el lomo de un mazo prolijo (estilo MercadoPago).
+  // Las cards más al fondo del mazo asoman un poquito más.
+  const peekOffsets = [0, 14, 24, 32];
+  const restY = peekOffsets[Math.min(index, peekOffsets.length - 1)];
+
+  // Progreso local de "salida": 0 mientras espera o está activa, 0->1
+  // mientras se retira limpio hacia arriba y se desvanece.
+  const exitProgress = useTransform(scrollYProgress, [start, end], [0, 1], {
+    clamp: true,
+  });
+
+  // Antes de su turno: en reposo, asomando (restY, escala levemente menor).
+  // Llega su turno: sube a y:0, escala 1 (queda al frente, plana, sin rotar).
+  // Pasa su turno: sigue subiendo y se desvanece (sale del mazo, no queda de fondo).
+  // Punto de inicio del tramo de "reposo" (mientras esta card asoma en el
+  // fondo del mazo, antes de que le toque el turno). Para la primera card
+  // no hay tramo de reposo previo, así que usamos un punto ligeramente
+  // anterior a 0 para evitar valores de entrada duplicados en useTransform.
+  const restStart = index === 0 ? -0.001 : Math.max(start - step, 0);
+
+  const y = useTransform(
+    scrollYProgress,
+    [restStart, start, end],
+    [restY, 0, isLast ? 0 : -60],
+  );
+
+  const scale = useTransform(
+    scrollYProgress,
+    [restStart, start, end],
+    [1 - Math.min(index, 3) * 0.03, 1, isLast ? 1 : 1],
+  );
+
+  const opacity = useTransform(
+    exitProgress,
+    [0, 0.85, 1],
+    isLast ? [1, 1, 1] : [1, 1, 0],
+  );
+
+  // z-index: en reposo, las cards de más adelante en el mazo (índice menor)
+  // deben tapar a las de más atrás. Pero en cuanto a una card le toca
+  // retirarse, su z-index debe caer por debajo de TODAS las demás para que
+  // la card entrante no quede tapada durante la transición de salida.
+  const restZIndex = total - index;
+  const zIndex = useTransform(exitProgress, (v) => (v > 0.05 ? 0 : restZIndex));
+
+  return (
+    <motion.article
+      style={{
+        y,
+        scale,
+        opacity,
+        zIndex,
+      }}
+      className="absolute inset-x-0 top-0 flex h-[420px] flex-col overflow-hidden rounded-[1.4rem] bg-[#14100D] shadow-[0_2px_8px_rgba(0,0,0,0.18),0_22px_45px_-12px_rgba(0,0,0,0.45)]"
+    >
+      {/* Imagen: predominante, sin overlay pesado */}
+      <div className="relative flex-1 overflow-hidden">
+        <Image
+          src={service.image}
+          alt={service.title}
+          fill
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-[linear-gradient(to_top,#14100D_0%,rgba(20,16,13,0.90)_30%,rgba(20,16,13,0.45)_65%,transparent_100%)]" />
+      </div>
+
+      {/* Franja de texto sólida, separada de la imagen */}
+      <div className="flex flex-col gap-2 bg-[linear-gradient(180deg,#14100D_0%,#0F0B09_100%)] px-6 py-5">
+        <span className="h-[2px] w-7 rounded-full bg-[#F3D7BA]/65" />
+
+        <h3 className="title-card !text-xl leading-tight text-[#FFF7EC]">
+          {service.title}
+        </h3>
+
+        <p className="text-body line-clamp-2 text-[14px] !leading-snug text-[#F3D7BA]/75">
+          {service.mobileDescription}
+        </p>
+      </div>
+    </motion.article>
   );
 }

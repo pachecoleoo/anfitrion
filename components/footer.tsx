@@ -18,7 +18,7 @@ export default function Footer() {
 
       {/* Sticker decorativo */}
       <img
-        src="/images/stickers/recurso 27.svg"
+        src="/images/stickers/Recurso 27.png"
         alt=""
         className="pointer-events-none absolute -right-12 top-8  w-44 rotate-12 opacity-20 md:block lg:w-56"
       />
