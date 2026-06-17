@@ -156,8 +156,8 @@ function MobileCardStack() {
   });
 
   return (
-    <div ref={containerRef} className="relative h-[500vh]">
-      <div className="sticky top-0 flex h-screen items-center justify-center -mb-30 overflow-hidden px-6">
+    <div ref={containerRef} className="relative h-[200vh]">
+      <div className="sticky top-0 flex h-screen items-center justify-center -mb-30 -mt-15 overflow-hidden px-6">
         <div className="relative h-[480px] w-full max-w-[470px]">
           {services.map((service, i) => (
             <StackCard

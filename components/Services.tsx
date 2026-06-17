@@ -80,7 +80,7 @@ export default function Services() {
       <img
         src="/images/stickers/Recurso24.svg"
         alt="El servicio como vocación, el café como excusa"
-        className="absolute right-4 top-0 z-30 hidden w-44 rotate-[10deg] drop-shadow-[0_18px_25px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out hover:-translate-y-2 hover:rotate-[7deg] hover:scale-[1.03] md:block lg:right-20 lg:w-64"
+        className="absolute right-4 top-0 z-30  w-44 rotate-[10deg] drop-shadow-[0_18px_25px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out hover:-translate-y-2 hover:rotate-[7deg] hover:scale-[1.03] md:block lg:right-20 lg:w-64"
       />
 
       <div className="relative z-10 mx-auto max-w-7xl">

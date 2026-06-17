@@ -101,7 +101,7 @@ export default function ContactSection() {
   return (
     <section
       ref={sectionRef}
-      id="contacto"
+      id="Contacto"
       className="relative overflow-hidden bg-[#f5efe5] px-5 py-24 text-[#2f1f14] md:px-10 lg:px-16"
     >
       {/* Fondo patrón */}
