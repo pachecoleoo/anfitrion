@@ -47,21 +47,21 @@ export default function BenefitsSection() {
       {/* Sticker superior izquierdo */}
       <div className="pointer-events-none absolute z-20 -translate-y-[9.5rem] transition-transform duration-300 hover:-translate-y-40 hover:rotate-[7deg] hover:scale-[1.03] md:pointer-events-auto md:-translate-x-10 md:block">
         <img
-          src="/images/stickers/Recurso 3.png"
+          src="/images/stickers/Recurso19.svg"
           alt=""
           className="w-40 -rotate-[20deg] drop-shadow-[0_12px_20px_rgba(47,31,20,0.25)] lg:w-50"
         />
       </div>
 
       {/* Fondo patrón */}
-      <div
+      {/* <div
         className="pointer-events-none absolute inset-0 opacity-[0.20]"
         style={{
           backgroundImage: "url('/images/branding/Recurso 33.svg')",
           backgroundSize: "360px",
           backgroundRepeat: "repeat",
         }}
-      />
+      /> */}
 
       <div className="relative z-10 mx-auto max-w-7xl">
         <div className="mb-16 grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
