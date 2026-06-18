@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type TouchEvent } from "react";
 import Image from "next/image";
 
 const benefits = [
@@ -32,23 +32,50 @@ const benefits = [
 
 export default function Services() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   const activeBenefit = benefits[activeIndex];
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
 
-  const nextSlide = () => {
+  const nextBenefit = () => {
     setActiveIndex((current) =>
       current === benefits.length - 1 ? 0 : current + 1,
     );
   };
 
-  const prevSlide = () => {
+  const prevBenefit = () => {
     setActiveIndex((current) =>
       current === 0 ? benefits.length - 1 : current - 1,
     );
   };
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
 
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current === null || touchEndX.current === null) return;
+
+    const distance = touchStartX.current - touchEndX.current;
+    const minSwipeDistance = 45;
+
+    if (distance > minSwipeDistance) {
+      nextBenefit();
+    }
+
+    if (distance < -minSwipeDistance) {
+      prevBenefit();
+    }
+
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -70,17 +97,31 @@ export default function Services() {
 
     return () => observer.disconnect();
   }, []);
+
   return (
     <section
       ref={sectionRef}
       id="experiencias"
-      className="relative overflow-visible bg-[#353535] px-5 py-24 text-[#FFF7EC] md:px-10 lg:px-16"
+      className="relative overflow-hidden bg-[#100C09] px-5 py-24 text-[#FFF7EC] md:px-10 lg:px-16"
     >
+      {/* Fondo patrón suave */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.08]"
+        style={{
+          backgroundImage: "url('/images/branding/Recurso 33.svg')",
+          backgroundSize: "360px",
+          backgroundRepeat: "repeat",
+        }}
+      />
+
+      {/* Luz superior */}
+      <div className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-[#8D1E29]/25 blur-[120px]" />
+
       {/* Sticker */}
       <img
         src="/images/stickers/Recurso24.svg"
         alt="El servicio como vocación, el café como excusa"
-        className="absolute right-4 top-0 z-30  w-44 rotate-[10deg] drop-shadow-[0_18px_25px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out hover:-translate-y-2 hover:rotate-[7deg] hover:scale-[1.03] md:block lg:right-20 lg:w-64"
+        className="absolute right-4 top-4 z-30 w-36 rotate-[10deg] drop-shadow-[0_18px_25px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out hover:-translate-y-2 hover:rotate-[7deg] hover:scale-[1.03] md:w-44 lg:right-20 lg:w-60"
       />
 
       <div className="relative z-10 mx-auto max-w-7xl">
@@ -90,7 +131,6 @@ export default function Services() {
             isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
           }`}
         >
-          {" "}
           <div>
             <span className="text-label mb-5 inline-block uppercase tracking-[0.28em] text-[#F3D7BA]">
               Beneficios
@@ -100,6 +140,7 @@ export default function Services() {
               Mucho más que servir café
             </h2>
           </div>
+
           <div className="lg:translate-y-5">
             <p className="font-subtitle max-w-2xl text-3xl leading-tight text-[#F3D7BA] md:text-4xl">
               Una propuesta para recibir, acompañar y sorprender.
@@ -113,113 +154,194 @@ export default function Services() {
           </div>
         </div>
 
-        {/* Carrusel principal */}
-        {/* Carrusel principal */}
+        {/* Desktop / tablet: selector editorial */}
         <div
-          className={`overflow-hidden rounded-[2.4rem] border-[3px] border-[#FFF7EC] bg-[#FFF7EC] shadow-[0_28px_90px_rgba(0,0,0,0.35)] transition-all delay-200 duration-1000 ease-out ${
+          className={`hidden overflow-hidden rounded-[2.2rem] border border-[#FFF7EC]/14 bg-[#18110E]/88 shadow-[0_28px_90px_rgba(0,0,0,0.42)] backdrop-blur-md transition-all delay-200 duration-1000 ease-out md:grid lg:grid-cols-[0.92fr_1.08fr] ${
             isVisible ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0"
           }`}
         >
-          <div className="grid lg:grid-cols-[0.95fr_2.05fr]">
-            {/* Texto */}
-            <div className="relative flex min-h-[360px] flex-col justify-between bg-[#E8DFD2] p-7 md:p-10 lg:min-h-[590px]">
-              <div>
-                <span className="font-button inline-flex rounded-full border border-[#8D1E29]/20 bg-[#FFF7EC]/70 px-4 py-2 text-xs tracking-[0.2em] text-[#8D1E29]">
-                  {String(activeIndex + 1).padStart(2, "0")} /{" "}
-                  {String(benefits.length).padStart(2, "0")}
-                </span>
+          {/* Lista de beneficios */}
+          <div className="flex min-h-[590px] flex-col justify-between border-r border-[#FFF7EC]/10 p-8 lg:p-10">
+            <div>
+              <span className="font-button inline-flex rounded-full border border-[#F3D7BA]/20 bg-[#FFF7EC]/8 px-4 py-2 text-xs uppercase tracking-[0.2em] text-[#F3D7BA]">
+                {String(activeIndex + 1).padStart(2, "0")} /{" "}
+                {String(benefits.length).padStart(2, "0")}
+              </span>
 
-                <h3 className="title-card mt-8 max-w-xl text-[#8D1E29]">
-                  {activeBenefit.title}
-                </h3>
+              <h3 className="title-card mt-8 max-w-xl text-[#FFF7EC]">
+                {activeBenefit.title}
+              </h3>
 
-                <p className="font-subtitle mt-7 max-w-md text-2xl leading-tight text-[#3A2116] md:text-3xl">
-                  {activeBenefit.description}
-                </p>
-              </div>
-
-              {/* Controles */}
-              <div className="mt-10 flex items-center justify-between gap-5">
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    onClick={prevSlide}
-                    aria-label="Anterior"
-                    className="flex h-12 w-12 items-center justify-center rounded-full border border-[#8D1E29]/25 text-[#8D1E29] transition duration-300 hover:-translate-y-1 hover:bg-[#8D1E29] hover:text-[#FFF7EC]"
-                  >
-                    ←
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={nextSlide}
-                    aria-label="Siguiente"
-                    className="flex h-12 w-12 items-center justify-center rounded-full bg-[#8D1E29] text-[#FFF7EC] shadow-[0_14px_35px_rgba(141,30,41,0.32)] transition duration-300 hover:-translate-y-1 hover:bg-[#791E25]"
-                  >
-                    →
-                  </button>
-                </div>
-
-                <div className="hidden items-center gap-2 md:flex">
-                  {benefits.map((benefit, index) => (
-                    <button
-                      key={benefit.title}
-                      type="button"
-                      onClick={() => setActiveIndex(index)}
-                      aria-label={`Ver ${benefit.title}`}
-                      className={`h-2.5 rounded-full transition-all duration-300 ${
-                        activeIndex === index
-                          ? "w-10 bg-[#8D1E29]"
-                          : "w-2.5 bg-[#8D1E29]/25 hover:bg-[#8D1E29]/50"
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
+              <p className="font-subtitle mt-6 max-w-md text-2xl leading-tight text-[#F3D7BA]/85 md:text-3xl">
+                {activeBenefit.description}
+              </p>
             </div>
 
-            {/* Imagen */}
-            <div className="relative h-[360px] overflow-hidden bg-[#3A2116] md:h-[520px] lg:h-[590px]">
+            <div className="mt-10 space-y-3">
+              {benefits.map((benefit, index) => {
+                const isActive = activeIndex === index;
+
+                return (
+                  <button
+                    key={benefit.title}
+                    type="button"
+                    onClick={() => setActiveIndex(index)}
+                    onMouseEnter={() => setActiveIndex(index)}
+                    onFocus={() => setActiveIndex(index)}
+                    className={`group flex w-full items-center gap-4 rounded-2xl border px-5 py-4 text-left transition-all duration-500 ${
+                      isActive
+                        ? "border-[#F3D7BA]/35 bg-[#FFF7EC]/10"
+                        : "border-[#FFF7EC]/8 bg-transparent hover:border-[#F3D7BA]/25 hover:bg-[#FFF7EC]/6"
+                    }`}
+                  >
+                    <span
+                      className={`font-button text-xs tracking-[0.22em] transition-colors duration-500 ${
+                        isActive ? "text-[#F3D7BA]" : "text-[#FFF7EC]/38"
+                      }`}
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+
+                    <span
+                      className={`h-[2px] rounded-full transition-all duration-500 ${
+                        isActive
+                          ? "w-10 bg-[#F3D7BA]"
+                          : "w-5 bg-[#FFF7EC]/22 group-hover:w-8 group-hover:bg-[#F3D7BA]/60"
+                      }`}
+                    />
+
+                    <span
+                      className={`title-card !text-[1.1rem] leading-none transition-colors duration-500 ${
+                        isActive ? "text-[#FFF7EC]" : "text-[#FFF7EC]/58"
+                      }`}
+                    >
+                      {benefit.title}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Imagen grande */}
+          <div className="relative min-h-[590px] overflow-hidden bg-[#3A2116]">
+            {benefits.map((benefit, index) => (
               <Image
-                key={activeBenefit.image}
-                src={activeBenefit.image}
-                alt={activeBenefit.title}
+                key={benefit.image}
+                src={benefit.image}
+                alt={benefit.title}
                 fill
-                sizes="(max-width: 768px) 100vw, 70vw"
-                className="scale-105 object-cover opacity-0 transition-all duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] animate-[fadeImage_900ms_ease_forwards]"
+                sizes="60vw"
+                className={`object-cover transition-all duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                  activeIndex === index
+                    ? "scale-100 opacity-100"
+                    : "scale-105 opacity-0"
+                }`}
               />
+            ))}
 
-              <div className="absolute inset-0 bg-gradient-to-r from-[#3A2116]/30 via-transparent to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#3A2116]/35 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#100C09]/55 via-[#100C09]/12 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#100C09]/50 via-transparent to-transparent" />
 
-              {/* Etiqueta inferior */}
-              {/* <div className="absolute bottom-6 left-6 right-6 flex flex-wrap items-center justify-between gap-4 rounded-full border border-[#FFF7EC]/22 bg-[#353535]/55 px-5 py-3 backdrop-blur-md">
-                <span className="font-button text-xs uppercase tracking-[0.22em] text-[#FFF7EC]">
-                  Anfitrión Café
-                </span>
+            <div className="absolute bottom-7 left-7 right-7 flex items-center justify-between gap-4 rounded-full border border-[#FFF7EC]/16 bg-[#100C09]/45 px-5 py-3 backdrop-blur-md">
+              <span className="font-button text-xs uppercase tracking-[0.22em] text-[#F3D7BA]">
+                Anfitrión Café
+              </span>
 
-                <span className="text-body text-sm text-[#FFF7EC]/75">
-                  Experiencias para eventos
-                </span>
-              </div> */}
+              <span className="text-body text-sm text-[#FFF7EC]/70">
+                Experiencias para eventos
+              </span>
             </div>
           </div>
         </div>
-        {/* Mini navegación mobile */}
-        <div className="mt-7 flex justify-center gap-2 md:hidden">
-          {benefits.map((benefit, index) => (
-            <button
-              key={benefit.title}
-              type="button"
-              onClick={() => setActiveIndex(index)}
-              aria-label={`Ver ${benefit.title}`}
-              className={`h-2.5 rounded-full transition-all duration-300 ${
-                activeIndex === index
-                  ? "w-10 bg-[#F3D7BA]"
-                  : "w-2.5 bg-[#FFF7EC]/25"
-              }`}
-            />
-          ))}
+
+        {/* Mobile: carrusel premium */}
+        <div
+          className={`transition-all delay-200 duration-1000 ease-out md:hidden ${
+            isVisible ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0"
+          }`}
+        >
+          <div
+            className="overflow-hidden rounded-[1.8rem] border border-[#FFF7EC]/12 bg-[#18110E] shadow-[0_22px_65px_rgba(0,0,0,0.38)] select-none touch-pan-y"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            {/* Imagen carrusel */}
+            <div
+              className="relative h-[370px] overflow-hidden bg-[#100C09]"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              {benefits.map((benefit, index) => (
+                <div
+                  key={benefit.image}
+                  className={`absolute inset-0 transition-all duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                    activeIndex === index
+                      ? "z-10 translate-x-0 scale-100 opacity-100"
+                      : index < activeIndex
+                        ? "z-0 -translate-x-8 scale-105 opacity-0"
+                        : "z-0 translate-x-8 scale-105 opacity-0"
+                  }`}
+                >
+                  <Image
+                    src={benefit.image}
+                    alt={benefit.title}
+                    fill
+                    sizes="100vw"
+                    className="object-cover"
+                  />
+                </div>
+              ))}
+
+              <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#18110E] via-[#18110E]/30 to-transparent" />
+              <div className="absolute inset-0 z-20 bg-[#100C09]/10" />
+
+              {/* Número */}
+              <span className="font-button absolute left-5 top-5 z-30 rounded-full border border-[#FFF7EC]/18 bg-[#100C09]/45 px-3 py-2 text-xs tracking-[0.18em] text-[#F3D7BA] backdrop-blur-md">
+                {String(activeIndex + 1).padStart(2, "0")} /{" "}
+                {String(benefits.length).padStart(2, "0")}
+              </span>
+            </div>
+
+            {/* Texto */}
+            <div className="px-6 pb-6 pt-5">
+              <span className="mb-4 block h-[2px] w-8 rounded-full bg-[#F3D7BA]/70" />
+
+              <h3
+                key={activeBenefit.title}
+                className="title-card !text-[1.55rem] leading-tight text-[#FFF7EC]"
+              >
+                {activeBenefit.title}
+              </h3>
+
+              <p
+                key={activeBenefit.description}
+                className="text-body mt-3 min-h-[72px] text-[15px] !leading-relaxed text-[#F3D7BA]/76"
+              >
+                {activeBenefit.description}
+              </p>
+
+              {/* Dots */}
+              <div className="mt-6 flex items-center justify-center gap-2">
+                {benefits.map((benefit, index) => (
+                  <span
+                    key={benefit.title}
+                    className={`h-2.5 rounded-full transition-all duration-300 ${
+                      activeIndex === index
+                        ? "w-10 bg-[#F3D7BA]"
+                        : "w-2.5 bg-[#FFF7EC]/22"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <p className="text-body mt-4 text-center text-xs uppercase tracking-[0.18em] text-[#FFF7EC]/38">
+            Deslizá para ver más
+          </p>
         </div>
       </div>
     </section>
