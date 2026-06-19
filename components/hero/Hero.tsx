@@ -3,7 +3,10 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative h-[100svh] overflow-hidden bg-[#2B1A10]">
+    <section
+      className="relative h-[100svh] overflow-hidden bg-[#2B1A10]"
+      id="hero"
+    >
       {/* Video de fondo */}
       <video
         className="absolute inset-0 h-full w-full object-cover"

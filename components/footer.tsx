@@ -1,11 +1,11 @@
 import Link from "next/link";
 import BrandButton from "./BrandButton";
-
+import Image from "next/image";
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden bg-[#2f1f14] px-5 pt-20 text-[#f5efe5] md:px-10 lg:px-16">
+    <footer className="relative overflow-hidden bg-[#353535] px-5 pt-20 text-[#f5efe5] md:px-10 lg:px-16">
       {/* Patrón de fondo */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.06]"
@@ -18,7 +18,7 @@ export default function Footer() {
 
       {/* Sticker decorativo */}
       <img
-        src="/images/stickers/Recurso27.svg"
+        src="/images/stickers/Recurso 27.svg"
         alt=""
         className="pointer-events-none absolute -right-12 top-8  w-44 rotate-12 opacity-20 md:block lg:w-56"
       />
@@ -28,15 +28,17 @@ export default function Footer() {
           {/* Marca */}
           <div>
             <Link href="/" className="inline-block">
-              <h2 className="font-title text-5xl leading-none text-[#f5efe5] md:text-6xl">
-                Anfitrión
-              </h2>
-              <p className="font-button mt-2 text-sm uppercase tracking-[0.32em] text-[#c98b55]">
-                Café
-              </p>
+              <Image
+                src="/images/branding/Recurso 12.png"
+                alt="Anfitrión Café"
+                width={220}
+                height={120}
+                className="h-auto w-40 md:w-52"
+                priority={false}
+              />
             </Link>
 
-            <p className="font-subtitle mt-7 max-w-sm text-3xl leading-tight text-[#e6c8aa]">
+            <p className="font-subtitle mt-7 max-w-sm text-3xl leading-tight text-[#E8DBCA]">
               Café de especialidad para momentos que merecen ser recordados.
             </p>
           </div>

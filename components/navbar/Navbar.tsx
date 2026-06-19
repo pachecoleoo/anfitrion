@@ -6,10 +6,10 @@ import { useEffect, useRef, useState } from "react";
 import BrandButton from "@/components/BrandButton";
 
 const links = [
-  { label: "Nuestra Esencia", href: "#Nosotros" },
-  { label: "Eventos", href: "#Eventos" },
-  { label: "Beneficios", href: "#Beneficios" },
-  { label: "Contacto", href: "#Contacto" },
+  { label: "Nuestra Esencia", href: "#nosotros" },
+  { label: "Eventos", href: "#servicios" },
+  { label: "Beneficios", href: "#beneficios" },
+  { label: "Contacto", href: "#contacto" },
 ];
 
 export default function Navbar() {
@@ -60,7 +60,7 @@ export default function Navbar() {
           <div className="relative rounded-[1.8rem] border-[3px] border-[#FFF7EC] bg-[#E8DFD2]/85 shadow-[0_14px_35px_rgba(47,31,20,0.20)] backdrop-blur-xl">
             {/* LOGO STICKER SOBRESALIDO */}
             <Link
-              href="/"
+              href="#hero"
               className="absolute left-[-6px] top-1/2 z-30 -translate-y-[48%] transition-transform duration-300 hover:-translate-y-[52%] md:left-[-14px]"
             >
               <Image

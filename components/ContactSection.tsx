@@ -101,7 +101,7 @@ export default function ContactSection() {
   return (
     <section
       ref={sectionRef}
-      id="Contacto"
+      id="contacto"
       className="relative overflow-hidden bg-[#f5efe5] px-5 py-24 text-[#2f1f14] md:px-10 lg:px-16"
     >
       {/* Fondo patrón */}
@@ -138,7 +138,7 @@ export default function ContactSection() {
           <span className="text-label mb-5 inline-block uppercase tracking-[0.25em] text-[#8a5a32]">
             Contacto
           </span>
-          <h2 className="title-section max-w-xl text-[#2f1f14]">
+          <h2 className="title-section max-w-xl text-[#353535]">
             Llevemos café de especialidad a tu próximo evento
           </h2>
           <p className="font-subtitle mt-6 max-w-lg text-3xl leading-tight text-[#7a4a26] md:text-4xl">
@@ -184,7 +184,7 @@ export default function ContactSection() {
         >
           <div className="grid gap-5 md:grid-cols-2 ">
             <div className="md:col-span-1">
-              <label className="text-label mb-2 block uppercase tracking-[0.16em] text-[#8a5a32]">
+              <label className="text-label mb-2 block uppercase tracking-[0.16em] text-[#353535]">
                 Nombre
               </label>
               <input
@@ -199,7 +199,7 @@ export default function ContactSection() {
             </div>
 
             <div className="md:col-span-1">
-              <label className="text-label mb-2 block uppercase tracking-[0.16em] text-[#8a5a32]">
+              <label className="text-label mb-2 block uppercase tracking-[0.16em] text-[#353535]">
                 Email
               </label>
               <input
@@ -214,7 +214,7 @@ export default function ContactSection() {
             </div>
 
             <div className="md:col-span-1">
-              <label className=" required text-label mb-2 block uppercase tracking-[0.16em] text-[#8a5a32]">
+              <label className=" required text-label mb-2 block uppercase tracking-[0.16em] text-[#353535]">
                 Teléfono
               </label>
               <input
@@ -228,7 +228,7 @@ export default function ContactSection() {
             </div>
 
             <div className="md:col-span-1">
-              <label className="text-label mb-2 block uppercase tracking-[0.16em] text-[#8a5a32]">
+              <label className="text-label mb-2 block uppercase tracking-[0.16em] text-[#353535]">
                 Tipo de evento
               </label>
 
@@ -303,7 +303,7 @@ export default function ContactSection() {
             </div>
 
             <div className="md:col-span-2">
-              <label className="text-label mb-2 block uppercase tracking-[0.16em] text-[#8a5a32]">
+              <label className="text-label mb-2 block uppercase tracking-[0.16em] text-[#353535]">
                 Fecha estimada
               </label>
               <input
@@ -316,7 +316,7 @@ export default function ContactSection() {
             </div>
 
             <div className="md:col-span-2">
-              <label className="text-label mb-2 block uppercase tracking-[0.16em] text-[#8a5a32]">
+              <label className="text-label mb-2 block uppercase tracking-[0.16em] text-[#353535]">
                 Mensaje
               </label>
               <textarea
@@ -334,11 +334,15 @@ export default function ContactSection() {
           <button
             type="submit"
             disabled={status === "loading"}
-            className="font-button mt-7 w-full rounded-full bg-[#2f1f14] px-8 py-4 text-sm uppercase tracking-[0.18em] text-white transition hover:bg-[#7a4a26] disabled:cursor-not-allowed disabled:opacity-60"
+            className="font-button group relative mt-7 flex w-full items-center justify-center gap-3 overflow-hidden rounded-full border border-[#FFF7EC]/20 bg-[#2f1f14] px-8 py-4 text-sm uppercase tracking-[0.18em] text-[#FFF7EC] shadow-[0_16px_35px_rgba(47,31,20,0.24)] transition-all duration-300 hover:-translate-y-1 hover:border-[#F3D7BA]/60 hover:bg-[#8D1E29] hover:shadow-[0_20px_45px_rgba(141,30,41,0.28)] disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {status === "loading" ? "Enviando..." : "Enviar consulta"}
-          </button>
+            {/* brillo suave */}
+            <span className="absolute inset-0 translate-x-[-120%] bg-[linear-gradient(110deg,transparent_0%,rgba(255,247,236,0.22)_45%,transparent_70%)] transition-transform duration-700 group-hover:translate-x-[120%]" />
 
+            <span className="relative z-10">
+              {status === "loading" ? "Enviando..." : "Enviar consulta"}
+            </span>
+          </button>
           {status === "success" && (
             <p className="text-body mt-4 text-center text-[#2f7a45]">
               Gracias por escribirnos. Te responderemos pronto.

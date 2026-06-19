@@ -20,7 +20,7 @@ const benefits = [
     title: "Montaje ágil y cuidado",
     description:
       "Llegamos con todo lo necesario para que el servicio funcione de forma ordenada, estética y sin complicaciones.",
-    image: "/images/beneficios/1.JPG",
+    image: "/images/beneficios/1.jpg",
   },
   {
     title: "Café de especialidad",
@@ -101,12 +101,13 @@ export default function Services() {
   return (
     <section
       ref={sectionRef}
-      id="experiencias"
-      className="relative overflow-hidden bg-[#100C09] px-5 py-24 text-[#FFF7EC] md:px-10 lg:px-16"
+      id="beneficios"
+      className="relative overflow-visible bg-[#8D1E29] px-5 py-24 text-[#FFF7EC] md:px-10 lg:px-16"
     >
       {/* Fondo patrón suave */}
+      {/* Fondo patrón */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.08]"
+        className="pointer-events-none absolute inset-0 opacity-[0.20]"
         style={{
           backgroundImage: "url('/images/branding/Recurso 33.svg')",
           backgroundSize: "360px",
@@ -114,14 +115,11 @@ export default function Services() {
         }}
       />
 
-      {/* Luz superior */}
-      <div className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-[#8D1E29]/25 blur-[120px]" />
-
       {/* Sticker */}
       <img
         src="/images/stickers/Recurso24.svg"
         alt="El servicio como vocación, el café como excusa"
-        className="absolute right-4 top-4 z-30 w-36 rotate-[10deg] drop-shadow-[0_18px_25px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out hover:-translate-y-2 hover:rotate-[7deg] hover:scale-[1.03] md:w-44 lg:right-20 lg:w-60"
+        className="absolute right-4 -top-5 z-30 w-56 rotate-[10deg] drop-shadow-[0_18px_25px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out hover:-translate-y-2 hover:rotate-[7deg] hover:scale-[1.03] md:w-44 lg:right-20 lg:w-66"
       />
 
       <div className="relative z-10 mx-auto max-w-7xl">

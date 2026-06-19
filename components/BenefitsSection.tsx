@@ -1,9 +1,6 @@
 "use client";
-
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import Image from "next/image";
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
-
 const services = [
   {
     title: "Fechas especiales",
@@ -32,8 +29,34 @@ const services = [
 ];
 
 export default function BenefitsSection() {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(section);
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -60px 0px",
+      },
+    );
+
+    observer.observe(section);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id="servicios"
       className="relative overflow-visible bg-[#8D1E29] px-5 py-20 text-[#FFF7EC] md:px-10 lg:px-16"
     >
@@ -57,7 +80,12 @@ export default function BenefitsSection() {
       />
 
       <div className="relative z-10 mx-auto max-w-7xl">
-        <div className="mb-16 grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+        {/* Header */}
+        <div
+          className={`mb-16 grid gap-8 will-change-[transform,opacity] transition-all duration-1000 ease-out lg:grid-cols-[0.9fr_1.1fr] lg:items-end ${
+            isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
+          }`}
+        >
           <div>
             <span className="text-label mb-5 inline-block uppercase tracking-[0.28em] text-[#F3D7BA]">
               Servicios
@@ -67,8 +95,7 @@ export default function BenefitsSection() {
               Servicios para eventos
             </h2>
           </div>
-
-          <div className="translate-y-5">
+          <div className="lg:translate-y-5">
             <p className="font-subtitle max-w-2xl text-3xl leading-tight text-[#F3D7BA] md:text-4xl">
               Una experiencia pensada para adaptarse a cada ocasión.
             </p>
@@ -81,17 +108,33 @@ export default function BenefitsSection() {
           </div>
         </div>
 
-        {/* Desktop: grid estático original */}
+        {/* Desktop: grid original */}
         <div className="hidden gap-6 md:grid md:grid-cols-2 lg:grid-cols-4">
-          {services.map((service) => (
-            <ServiceCard key={service.title} service={service} />
+          {services.map((service, index) => (
+            <div
+              key={service.title}
+              className={`will-change-[transform,opacity] transition-all duration-1000 ease-out ${
+                isVisible
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-14 opacity-0"
+              }`}
+              style={{
+                transitionDelay: `${200 + index * 120}ms`,
+              }}
+            >
+              <ServiceCard service={service} />
+            </div>
           ))}
         </div>
-      </div>
 
-      {/* Mobile: stack scroll-driven */}
-      <div className="md:hidden">
-        <MobileCardStack />
+        {/* Mobile: cards con entrada individual */}
+        <div className="grid gap-5 md:hidden">
+          {services.map((service, index) => (
+            <MobileRevealCard key={service.title}>
+              <MobileServiceCard service={service} index={index} />
+            </MobileRevealCard>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -110,14 +153,12 @@ function ServiceCard({ service }: { service: (typeof services)[number] }) {
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
         />
 
-        {/* Oscurece un poco la imagen en hover */}
         <div className="absolute inset-0 bg-[#100C09]/10 transition-colors duration-500 group-hover:bg-[#100C09]/28" />
 
-        {/* Degradé más largo y suave */}
         <div className="absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(to_top,#14100D_0%,rgba(20,16,13,0.96)_18%,rgba(20,16,13,0.78)_42%,rgba(20,16,13,0.34)_72%,transparent_100%)]" />
       </div>
 
-      {/* Texto oscuro, integrado a la imagen */}
+      {/* Texto desktop */}
       <div className="relative flex flex-col gap-2 bg-[linear-gradient(180deg,#14100D_0%,#0F0B09_100%)] px-6 py-5">
         <span className="h-[2px] w-7 rounded-full bg-[#F3D7BA]/65 transition-all duration-500 group-hover:w-12 group-hover:bg-[#FFF7EC]" />
 
@@ -135,113 +176,17 @@ function ServiceCard({ service }: { service: (typeof services)[number] }) {
   );
 }
 
-function MobileCardStack() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const total = services.length;
-
-  // Wrapper alto: controla la velocidad del scroll-driven animation.
-  // Subí este número (vh) para que el ciclo sea más LENTO (hay que scrollear
-  // más para pasar las 4 cards). Bajalo para que sea más rápido.
-  // 250vh = rápido | 300vh = actual | 400vh = muy lento / cinematográfico.
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
-  return (
-    <div ref={containerRef} className="relative h-[500vh]">
-      <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden px-6">
-        <div className="relative h-[480px] w-full max-w-[470px]">
-          {services.map((service, i) => (
-            <StackCard
-              key={service.title}
-              service={service}
-              index={i}
-              total={total}
-              scrollYProgress={scrollYProgress}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function StackCard({
+function MobileServiceCard({
   service,
   index,
-  total,
-  scrollYProgress,
 }: {
   service: (typeof services)[number];
   index: number;
-  total: number;
-  scrollYProgress: ReturnType<typeof useScroll>["scrollYProgress"];
 }) {
-  // Cada card ocupa una "rebanada" igual del progreso total de scroll.
-  const step = 1 / total;
-  const start = index * step;
-  const end = start + step;
-  const isLast = index === total - 1;
-
-  // Offset de reposo: cuánto asoma esta card por debajo de la que tiene
-  // delante, como el lomo de un mazo prolijo (estilo MercadoPago).
-  // Las cards más al fondo del mazo asoman un poquito más.
-  const peekOffsets = [0, 14, 24, 32];
-  const restY = peekOffsets[Math.min(index, peekOffsets.length - 1)];
-
-  // Progreso local de "salida": 0 mientras espera o está activa, 0->1
-  // mientras se retira limpio hacia arriba y se desvanece.
-  const exitProgress = useTransform(scrollYProgress, [start, end], [0, 1], {
-    clamp: true,
-  });
-
-  // Antes de su turno: en reposo, asomando (restY, escala levemente menor).
-  // Llega su turno: sube a y:0, escala 1 (queda al frente, plana, sin rotar).
-  // Pasa su turno: sigue subiendo y se desvanece (sale del mazo, no queda de fondo).
-  // Punto de inicio del tramo de "reposo" (mientras esta card asoma en el
-  // fondo del mazo, antes de que le toque el turno). Para la primera card
-  // no hay tramo de reposo previo, así que usamos un punto ligeramente
-  // anterior a 0 para evitar valores de entrada duplicados en useTransform.
-  const restStart = index === 0 ? -0.001 : Math.max(start - step, 0);
-
-  const y = useTransform(
-    scrollYProgress,
-    [restStart, start, end],
-    [restY, 0, isLast ? 0 : -60],
-  );
-
-  const scale = useTransform(
-    scrollYProgress,
-    [restStart, start, end],
-    [1 - Math.min(index, 3) * 0.03, 1, isLast ? 1 : 1],
-  );
-
-  const opacity = useTransform(
-    exitProgress,
-    [0, 0.85, 1],
-    isLast ? [1, 1, 1] : [1, 1, 0],
-  );
-
-  // z-index: en reposo, las cards de más adelante en el mazo (índice menor)
-  // deben tapar a las de más atrás. Pero en cuanto a una card le toca
-  // retirarse, su z-index debe caer por debajo de TODAS las demás para que
-  // la card entrante no quede tapada durante la transición de salida.
-  const restZIndex = total - index;
-  const zIndex = useTransform(exitProgress, (v) => (v > 0.05 ? 0 : restZIndex));
-
   return (
-    <motion.article
-      style={{
-        y,
-        scale,
-        opacity,
-        zIndex,
-      }}
-      className="absolute inset-x-0 top-0 flex h-[420px] flex-col overflow-hidden rounded-[1.4rem] bg-[#14100D] shadow-[0_2px_8px_rgba(0,0,0,0.18),0_22px_45px_-12px_rgba(0,0,0,0.45)]"
-    >
-      {/* Imagen: predominante, sin overlay pesado */}
-      <div className="relative flex-1 overflow-hidden">
+    <article className="overflow-hidden rounded-[1.6rem] border border-[#FFF7EC]/14 bg-[#14100D] shadow-[0_18px_45px_rgba(0,0,0,0.32)]">
+      {/* Imagen */}
+      <div className="relative h-[250px] overflow-hidden">
         <Image
           src={service.image}
           alt={service.title}
@@ -249,21 +194,64 @@ function StackCard({
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-x-0 bottom-0 h-32 bg-[linear-gradient(to_top,#14100D_0%,rgba(20,16,13,0.90)_30%,rgba(20,16,13,0.45)_65%,transparent_100%)]" />
+
+        <div className="absolute inset-0 bg-[#100C09]/10" />
+
+        <div className="absolute inset-x-0 bottom-0 h-36 bg-[linear-gradient(to_top,#14100D_0%,rgba(20,16,13,0.92)_28%,rgba(20,16,13,0.45)_68%,transparent_100%)]" />
       </div>
 
-      {/* Franja de texto sólida, separada de la imagen */}
-      <div className="flex flex-col gap-2 bg-[linear-gradient(180deg,#14100D_0%,#0F0B09_100%)] px-6 py-5">
-        <span className="h-[2px] w-7 rounded-full bg-[#F3D7BA]/65" />
+      {/* Texto */}
+      <div className="bg-[linear-gradient(180deg,#14100D_0%,#0F0B09_100%)] px-6 pb-6 pt-5">
+        <span className="mb-4 block h-[2px] w-8 rounded-full bg-[#F3D7BA]/70" />
 
-        <h3 className="title-card !text-xl leading-tight text-[#FFF7EC]">
+        <h3 className="title-card !text-[1.45rem] leading-tight text-[#FFF7EC]">
           {service.title}
         </h3>
 
-        <p className="text-body line-clamp-2 text-[14px] !leading-snug text-[#F3D7BA]/75">
+        <p className="text-body mt-3 text-[14px] !leading-relaxed text-[#F3D7BA]/76">
           {service.description}
         </p>
       </div>
-    </motion.article>
+    </article>
+  );
+}
+
+function MobileRevealCard({ children }: { children: ReactNode }) {
+  const cardRef = useRef<HTMLDivElement | null>(null);
+  const [isCardVisible, setIsCardVisible] = useState(false);
+
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsCardVisible(true);
+          observer.unobserve(card);
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      },
+    );
+
+    observer.observe(card);
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={cardRef}
+      className={`will-change-[transform,opacity] transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        isCardVisible
+          ? "translate-y-0 scale-100 opacity-100"
+          : "translate-y-16 scale-[0.96] opacity-0"
+      }`}
+    >
+      {children}
+    </div>
   );
 }
