@@ -114,17 +114,6 @@ export default function ContactSection() {
         }}
       />
 
-      {/* Sticker decorativo */}
-      <img
-        src="/images/stickers/Recurso 20.svg"
-        alt=""
-        className={`absolute -right-7 top-10 z-40 w-40 rotate-12 transition-all delay-500 duration-700 ease-out hover:-translate-y-[5%] md:-right-7 md:top-20 md:block lg:w-52 ${
-          isVisible
-            ? "translate-y-0 scale-100 opacity-100"
-            : "-translate-y-8 scale-90 opacity-0"
-        }`}
-      />
-
       <div className="relative z-10 mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
         {/* Texto lateral */}
         <div
@@ -178,10 +167,19 @@ export default function ContactSection() {
         {/* Formulario */}
         <form
           onSubmit={handleSubmit}
-          className={`rounded-[2rem] border border-[#8a5a32]/20 bg-[#fffaf2]/85 p-6 shadow-[0_20px_80px_rgba(47,31,20,0.12)] backdrop-blur-md transition-all delay-200 duration-1000 ease-out md:p-10 lg:mt-22 ${
+          className={`relative overflow-visible rounded-[2rem] border border-[#8a5a32]/20 bg-[#fffaf2]/85 p-6 shadow-[0_20px_80px_rgba(47,31,20,0.12)] backdrop-blur-md transition-all delay-200 duration-1000 ease-out md:p-10 lg:mt-22 ${
             isVisible ? "translate-x-0 opacity-100" : "translate-x-12 opacity-0"
           }`}
         >
+          <img
+            src="/images/stickers/Recurso 20.svg"
+            alt=""
+            className={`pointer-events-none absolute -right-14 -top-15 z-30 w-34 rotate-[10deg] drop-shadow-[0_18px_25px_rgba(47,31,20,0.28)] transition-all delay-500 duration-700 ease-out md:-right-7 md:-top-10 md:w-40 lg:-right-20 lg:-top-15 lg:w-48 ${
+              isVisible
+                ? "translate-y-0 scale-100 opacity-100"
+                : "-translate-y-6 scale-90 opacity-0"
+            }`}
+          />
           <div className="grid gap-5 md:grid-cols-2 ">
             <div className="md:col-span-1">
               <label className="text-label mb-2 block uppercase tracking-[0.16em] text-[#353535]">

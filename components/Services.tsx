@@ -117,9 +117,14 @@ export default function Services() {
 
       {/* Sticker */}
       <img
+        src="/images/stickers/Recurso 26.svg"
+        alt="El servicio como vocación, el café como excusa"
+        className="absolute right-4 -top-4 z-30 w-40 rotate-[10deg] drop-shadow-[0_18px_25px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out hover:-translate-y-2 hover:rotate-[7deg] hover:scale-[1.03] md:w-24 lg:right-20 lg:w-48"
+      />
+      <img
         src="/images/stickers/Recurso24.svg"
         alt="El servicio como vocación, el café como excusa"
-        className="absolute right-4 -top-5 z-30 w-56 rotate-[10deg] drop-shadow-[0_18px_25px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out hover:-translate-y-2 hover:rotate-[7deg] hover:scale-[1.03] md:w-44 lg:right-20 lg:w-66"
+        className="absolute -bottom-8 -left-3 z-30 w-58 -rotate-[6deg] drop-shadow-[0_18px_25px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out hover:-translate-y-2 hover:-rotate-[6deg] hover:scale-[1.03] md:-bottom-10 md:left-8 md:w-40 lg:-bottom-10 lg:left-10 lg:w-70"
       />
 
       <div className="relative z-10 mx-auto max-w-7xl">

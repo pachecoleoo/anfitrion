@@ -20,7 +20,7 @@ export default function Footer() {
       <img
         src="/images/stickers/Recurso 27.svg"
         alt=""
-        className="pointer-events-none absolute -right-12 top-8  w-44 rotate-12 opacity-20 md:block lg:w-56"
+        className="pointer-events-none absolute -right-12 top-80  lg:top-20 w-44 rotate-12 opacity-20 md:block lg:w-56"
       />
 
       <div className="relative z-10 mx-auto max-w-7xl">
