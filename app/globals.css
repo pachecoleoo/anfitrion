@@ -242,3 +242,28 @@ section {
     transform: scale(1.05);
   }
 }
+
+/* h1 edicion  */
+
+@keyframes hero-title-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+.hero-floating-title {
+  animation: hero-title-float 5s ease-in-out infinite;
+  text-shadow: 0 12px 30px rgba(20, 10, 5, 0.35);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-floating-title {
+    animation: none;
+  }
+}

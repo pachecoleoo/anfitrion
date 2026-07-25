@@ -12,6 +12,7 @@ type FormState = {
 const eventOptions = [
   "Evento corporativo",
   "Fecha especial",
+  "Evento social",
   "Oficina",
   "Otro",
 ];
@@ -25,6 +26,9 @@ export default function ContactSection() {
     mensaje: "",
   });
   const [isEventOpen, setIsEventOpen] = useState(false);
+  const [highlightEventField, setHighlightEventField] = useState(false);
+  const highlightTimeoutRef = useRef<number | null>(null);
+
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
@@ -52,6 +56,45 @@ export default function ContactSection() {
 
     return () => observer.disconnect();
   }, []);
+  useEffect(() => {
+    const handleServiceSelected = (event: Event) => {
+      const selectedType = (event as CustomEvent<string>).detail;
+
+      if (!eventOptions.includes(selectedType)) return;
+
+      setForm((prev) => ({
+        ...prev,
+        tipoEvento: selectedType,
+      }));
+
+      setIsEventOpen(false);
+      setHighlightEventField(true);
+
+      if (highlightTimeoutRef.current) {
+        window.clearTimeout(highlightTimeoutRef.current);
+      }
+
+      highlightTimeoutRef.current = window.setTimeout(() => {
+        setHighlightEventField(false);
+      }, 2500);
+    };
+
+    window.addEventListener(
+      "anfitrion:service-selected",
+      handleServiceSelected,
+    );
+
+    return () => {
+      window.removeEventListener(
+        "anfitrion:service-selected",
+        handleServiceSelected,
+      );
+
+      if (highlightTimeoutRef.current) {
+        window.clearTimeout(highlightTimeoutRef.current);
+      }
+    };
+  }, []);
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -78,8 +121,10 @@ export default function ContactSection() {
         body: JSON.stringify(form),
       });
 
+      const data = await res.json();
+
       if (!res.ok) {
-        throw new Error("Error al enviar el formulario");
+        throw new Error(data.message || "Error al enviar el formulario");
       }
 
       setStatus("success");
@@ -93,11 +138,10 @@ export default function ContactSection() {
         mensaje: "",
       });
     } catch (error) {
-      console.error(error);
+      console.error("Error del formulario:", error);
       setStatus("error");
     }
   };
-
   return (
     <section
       ref={sectionRef}
@@ -143,14 +187,21 @@ export default function ContactSection() {
               <p className="text-label uppercase tracking-[0.18em] text-[#8a5a32]">
                 Email
               </p>
-              <p className="text-body mt-1">hola@anfitrioncafe.com</p>
+              <p className="text-body mt-1">anfitrioncafe@gmail.com</p>
             </div>
 
             <div>
               <p className="text-label uppercase tracking-[0.18em] text-[#8a5a32]">
                 Instagram
-              </p>
-              <p className="text-body mt-1">@anfitrioncafe</p>
+              </p>{" "}
+              <a
+                href="https://www.instagram.com/anfitrion.cafe"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-[#c98b55]"
+              >
+                <p className="text-body mt-1">@anfitrioncafe</p>
+              </a>
             </div>
 
             <div>
@@ -176,7 +227,7 @@ export default function ContactSection() {
             alt=""
             className={`pointer-events-none absolute -right-14 -top-15 z-30 w-34 rotate-[10deg] drop-shadow-[0_18px_25px_rgba(47,31,20,0.28)] transition-all delay-500 duration-700 ease-out md:-right-7 md:-top-10 md:w-40 lg:-right-20 lg:-top-15 lg:w-48 ${
               isVisible
-                ? "translate-y-0 scale-100 opacity-100"
+                ? "translate-y-0 scale-100 opacity-100 "
                 : "-translate-y-6 scale-90 opacity-0"
             }`}
           />
@@ -206,7 +257,7 @@ export default function ContactSection() {
                 value={form.email}
                 onChange={handleChange}
                 required
-                placeholder="tuemail@gmail.com"
+                placeholder="anfitrioncafe@gmail.com"
                 className="w-full rounded-full border border-[#8a5a32]/20 bg-white px-5 py-4 font-text text-sm text-[#2f1f14] outline-none transition focus:border-[#8a5a32]"
               />
             </div>
@@ -226,18 +277,32 @@ export default function ContactSection() {
             </div>
 
             <div className="md:col-span-1">
-              <label className="text-label mb-2 block uppercase tracking-[0.16em] text-[#353535]">
-                Tipo de evento
-              </label>
+              <div className="mb-2 flex items-center justify-between gap-3">
+                <label className="text-label block uppercase tracking-[0.16em] text-[#353535]">
+                  Evento
+                </label>
+
+                <span
+                  className={`font-button rounded-full bg-[#8D1E29]/10 px-3 py-1 text-[8px] uppercase tracking-[0.16em] text-[#8D1E29] transition-all duration-300 ${
+                    highlightEventField
+                      ? "translate-y-0 opacity-100"
+                      : "pointer-events-none translate-y-1 opacity-0"
+                  }`}
+                >
+                  Servicio seleccionado
+                </span>
+              </div>
 
               <div className="relative">
                 <button
                   type="button"
                   onClick={() => setIsEventOpen(!isEventOpen)}
-                  className={`font-text flex w-full items-center justify-between rounded-full border bg-[#FFF7EC] px-5 py-2 text-left text-sm outline-none transition duration-300 ${
+                  className={`font-text flex w-full items-center justify-between rounded-full border px-5 py-2 text-left text-sm outline-none transition-all duration-300 ${
                     isEventOpen
-                      ? "border-[#8D1E29] ring-4 ring-[#8D1E29]/10"
-                      : "border-[#8a5a32]/20 hover:border-[#8a5a32]/40"
+                      ? "border-[#8D1E29] bg-[#FFF7EC] ring-4 ring-[#8D1E29]/10"
+                      : highlightEventField
+                        ? "border-[#8D1E29] bg-[#8D1E29]/[0.06] shadow-[0_0_0_5px_rgba(141,30,41,0.12)]"
+                        : "border-[#8a5a32]/20 bg-[#FFF7EC] hover:border-[#8a5a32]/40"
                   }`}
                 >
                   <span

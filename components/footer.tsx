@@ -138,12 +138,12 @@ export default function Footer() {
               <p>
                 <span className="block text-[#f5efe5]">Whatsapp</span>
                 <a
-                  href="https://www.instagram.com/anfitrion.cafe"
+                  href="https://wa.link/wbbw26"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="transition hover:text-[#c98b55]"
                 >
-                  2995230382
+                  +54 9 2996 74-0905
                 </a>
               </p>
             </div>
