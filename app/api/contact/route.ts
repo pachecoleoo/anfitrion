@@ -38,8 +38,49 @@ function isValidEmail(email: string): boolean {
 
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as ContactRequest;
+    const contentType = request.headers.get("content-type") ?? "";
 
+    if (!contentType.includes("application/json")) {
+      return Response.json(
+        {
+          ok: false,
+          message: "El formato de la solicitud no es válido.",
+        },
+        {
+          status: 415,
+        },
+      );
+    }
+
+    const rawBody = await request.text();
+
+    if (!rawBody.trim()) {
+      return Response.json(
+        {
+          ok: false,
+          message: "La solicitud llegó sin datos.",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    let body: ContactRequest;
+
+    try {
+      body = JSON.parse(rawBody) as ContactRequest;
+    } catch {
+      return Response.json(
+        {
+          ok: false,
+          message: "Los datos enviados no tienen un formato JSON válido.",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
     const nombre = cleanValue(body.nombre);
     const email = cleanValue(body.email);
     const telefono = cleanValue(body.telefono);
@@ -110,6 +151,10 @@ export async function POST(request: Request) {
         pass: process.env.EMAIL_PASS,
       },
     });
+
+    await transporter.verify();
+
+    console.log("SMTP conectado correctamente");
 
     const safeNombre = escapeHtml(nombre);
     const safeEmail = escapeHtml(email);
@@ -311,13 +356,30 @@ ${mensaje}
         status: 200,
       },
     );
-  } catch (error) {
-    console.error("Error al enviar la consulta:", error);
+  } catch (error: unknown) {
+    const mailError = error as {
+      code?: string;
+      command?: string;
+      response?: string;
+      message?: string;
+    };
+
+    console.error("Error al enviar la consulta:", {
+      code: mailError.code,
+      command: mailError.command,
+      response: mailError.response,
+      message: mailError.message,
+    });
 
     return Response.json(
       {
         ok: false,
-        message: "No se pudo enviar la consulta.",
+        message:
+          process.env.NODE_ENV === "development"
+            ? mailError.response ||
+              mailError.message ||
+              "No se pudo enviar la consulta."
+            : "No se pudo enviar la consulta.",
       },
       {
         status: 500,
