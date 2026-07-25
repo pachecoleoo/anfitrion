@@ -8,28 +8,28 @@ const services = [
     title: "Fechas especiales",
     formValue: "Fecha especial",
     description:
-      "Aniversarios, celebraciones privadas y regalos pensados para sorprender con un servicio cálido, personalizado y diferente.",
+      "Aniversarios, celebraciones privadas. Servicio cálido, personalizado y diferente.",
     image: "/images/varias/8.jpg",
   },
   {
     title: "Eventos corporativos",
     formValue: "Evento corporativo",
     description:
-      "Activaciones de marca, inauguraciones, congresos y lanzamientos donde el café se convierte en una experiencia memorable para invitados, clientes y equipos.",
+      "Activaciones de marca, inauguraciones, congresos y lanzamientos. El café como experiencia.",
     image: "/images/beneficios/dos.JPG",
   },
   {
     title: "Eventos sociales",
     formValue: "Evento social",
     description:
-      "Casamientos, cumpleaños y encuentros íntimos acompañados por café de especialidad y baristas profesionales.",
+      "Casamientos, cumpleaños y encuentros. Acompañados por café de especialidad y baristas profesionales.",
     image: "/images/varias/6.jpg",
   },
   {
     title: "Oficinas con sabor",
     formValue: "Oficina",
     description:
-      "Una pausa distinta para agasajar a tu equipo, mejorar la jornada y generar un momento de encuentro dentro del espacio de trabajo.",
+      "Una pausa distinta para agasajar a tu equipo. Un momento de encuentro dentro del espacio laboral.",
     image: "/images/varias/4.jpg",
   },
 ];
@@ -183,30 +183,29 @@ function ServiceCard({
       aria-label={`Seleccionar ${service.title}`}
       className="group relative flex h-[500px] w-full cursor-pointer flex-col overflow-hidden rounded-[1.4rem] bg-[#14100D] text-left shadow-[0_2px_8px_rgba(0,0,0,0.16),0_22px_45px_-12px_rgba(0,0,0,0.42)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#F3D7BA]/50"
     >
-      {/* Imagen */}
+      {/* Imagen estática */}
       <div className="relative min-h-0 flex-1 overflow-hidden">
         <Image
           src={service.image}
           alt={service.title}
           fill
           sizes="(max-width: 1024px) 50vw, 25vw"
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]"
+          className="object-cover"
         />
 
-        <div className="absolute inset-0 bg-[#100C09]/10 transition-colors duration-500 group-hover:bg-[#100C09]/25" />
+        <div className="absolute inset-0 bg-[#100C09]/16" />
 
         <div className="absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(to_top,#14100D_0%,rgba(20,16,13,0.96)_18%,rgba(20,16,13,0.78)_42%,rgba(20,16,13,0.34)_72%,transparent_100%)]" />
       </div>
 
-      {/* Texto */}
-      <div className="relative flex h-[215px] w-full flex-none flex-col bg-[linear-gradient(180deg,#14100D_0%,#0F0B09_100%)] px-6 py-5">
-        <span className="h-[2px] w-7 rounded-full bg-[#F3D7BA]/65 transition-all duration-400 group-hover:w-12 group-hover:bg-[#FFF7EC]" />
-
-        <h3 className="title-card mt-3 !text-xl leading-tight text-[#FFF7EC] lg:!text-[1.4rem]">
+      {/* Contenido */}
+      <div className="relative flex h-[215px] w-full flex-none flex-col overflow-hidden bg-[linear-gradient(180deg,#14100D_0%,#0F0B09_100%)] px-6 py-5">
+        {/* Título con hover */}
+        <h3 className="title-card origin-left !text-xl leading-tight text-[#FFF7EC] transition-transform duration-300 ease-out group-hover:scale-[1.04] lg:!text-[1.4rem]">
           {service.title}
         </h3>
 
-        <p className="text-body mt-3 line-clamp-3 text-[13px] !leading-relaxed text-[#F3D7BA]/75">
+        <p className="font-text mt-3 line-clamp-3 text-[13px] !leading-relaxed text-[#F3D7BA]/75">
           {service.description}
         </p>
 
@@ -218,8 +217,9 @@ function ServiceCard({
                 Seleccionar servicio
               </span>
 
+              {/* Esta línea se mantiene */}
               <span className="relative h-px w-[135px] overflow-hidden bg-[#FFF7EC]/20">
-                <span className="absolute inset-0 origin-left scale-x-0 bg-[#8D1E29] transition-transform duration-500 ease-out group-hover:scale-x-100" />
+                <span className="absolute inset-0 origin-left scale-x-0 bg-[#8D1E29] transition-transform duration-2000 ease-out group-hover:scale-x-100" />
               </span>
             </div>
 

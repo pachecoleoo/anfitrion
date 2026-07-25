@@ -68,7 +68,7 @@ export default function Hero() {
 
               {/* Línea */}
               <span className="relative h-[2px] w-full overflow-hidden bg-[#FFF7EC]/25">
-                <span className="absolute inset-0 origin-left scale-x-0 bg-[#8D1E29] transition-transform duration-500 ease-out group-hover:scale-x-100" />
+                <span className="absolute inset-0 origin-left scale-x-0 bg-[#8D1E29] transition-transform duration-3000 ease-out group-hover:scale-x-100" />
               </span>
             </Link>
           </div>
