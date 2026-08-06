@@ -7,16 +7,30 @@ export default function Hero() {
       id="hero"
       className="relative h-[100svh] min-h-[620px] overflow-hidden bg-[#24140d00]"
     >
-      {/* Video */}
+      {/* Video responsive */}
       <video
-        className="absolute inset-0 h-full w-full object-cover object-[98%_center] md:object-center"
-        src="/videos/video3.mp4"
         autoPlay
         muted
         loop
         playsInline
-      />
+        preload="metadata"
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full object-cover"
+      >
+        {/* Mobile: hasta 767 px */}
+        <source
+          src="/videos/videomobile.mp4"
+          type="video/mp4"
+          media="(max-width: 767px)"
+        />
 
+        {/* Tablet y desktop: desde 768 px */}
+        <source
+          src="/videos/video3.mp4"
+          type="video/mp4"
+          media="(min-width: 768px)"
+        />
+      </video>
       {/* Oscurecimiento general */}
       <div className="absolute inset-0 bg-[#24140D]/25 md:bg-[#24140D]/45" />
 

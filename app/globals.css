@@ -267,3 +267,14 @@ section {
     animation: none;
   }
 }
+/* sin desborde */
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+}

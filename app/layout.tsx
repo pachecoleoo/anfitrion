@@ -75,7 +75,8 @@ export default function RootLayout({
       <body
         className={`${novaNook.variable} ${minionCondItalic.variable} ${nunitoSans.variable}`}
       >
-        <SmoothScroll>{children}</SmoothScroll>
+        <SmoothScroll />
+        {children}
       </body>
     </html>
   );
