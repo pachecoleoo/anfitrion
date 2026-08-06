@@ -22,6 +22,7 @@ const eventOptions = [
   "Oficina",
   "Otro",
 ];
+const mensajeInicial = "Me gustaría saber más de Anfitrión Café";
 
 const initialForm: FormState = {
   nombre: "",
@@ -29,7 +30,7 @@ const initialForm: FormState = {
   telefono: "",
   tipoEvento: "",
   fecha: "",
-  mensaje: "",
+  mensaje: mensajeInicial,
 };
 
 function getLocalToday(): string {
@@ -54,8 +55,10 @@ export default function ContactSection() {
   const [isVisible, setIsVisible] = useState(false);
 
   const sectionRef = useRef<HTMLElement | null>(null);
+  const eventFieldRef = useRef<HTMLDivElement | null>(null);
   const eventDropdownRef = useRef<HTMLDivElement | null>(null);
   const highlightTimeoutRef = useRef<number | null>(null);
+  const eventScrollTimeoutRef = useRef<number | null>(null);
 
   const today = getLocalToday();
 
@@ -123,6 +126,32 @@ export default function ContactSection() {
       setIsEventOpen(false);
       setHighlightEventField(true);
 
+      /*
+       * Centramos el selector de evento después de que la card haya
+       * disparado el evento y comenzado el desplazamiento al formulario.
+       * El pequeño retraso hace que este scroll sea el definitivo en mobile.
+       */
+      if (eventScrollTimeoutRef.current) {
+        window.clearTimeout(eventScrollTimeoutRef.current);
+      }
+
+      eventScrollTimeoutRef.current = window.setTimeout(() => {
+        const eventField = eventFieldRef.current;
+
+        if (!eventField) return;
+
+        const fieldRect = eventField.getBoundingClientRect();
+        const centeredTop =
+          window.scrollY +
+          fieldRect.top -
+          (window.innerHeight - fieldRect.height) / 2;
+
+        window.scrollTo({
+          top: Math.max(0, centeredTop),
+          behavior: "smooth",
+        });
+      }, 140);
+
       if (highlightTimeoutRef.current) {
         window.clearTimeout(highlightTimeoutRef.current);
       }
@@ -145,6 +174,10 @@ export default function ContactSection() {
 
       if (highlightTimeoutRef.current) {
         window.clearTimeout(highlightTimeoutRef.current);
+      }
+
+      if (eventScrollTimeoutRef.current) {
+        window.clearTimeout(eventScrollTimeoutRef.current);
       }
     };
   }, []);
@@ -342,8 +375,23 @@ export default function ContactSection() {
     <section
       ref={sectionRef}
       id="contacto"
-      className="relative scroll-mt-24 overflow-hidden bg-[#f5efe5] px-5 py-24 text-[#2f1f14] md:px-10 lg:px-16"
+      className="relative scroll-mt-24 overflow-visible bg-[#f5efe5] px-5 py-24 text-[#2f1f14] md:px-10 lg:px-16"
     >
+      {/* Sticker que sobresale hacia la sección anterior */}
+      <div
+        className={`pointer-events-none absolute -top-8 -left-3 z-30 transition-all duration-1000 ease-out md:pointer-events-auto md:-top-10 md:left-8 lg:-top-10 lg:left-10 ${
+          isVisible
+            ? "translate-x-0 translate-y-0 scale-100 opacity-100"
+            : "-translate-x-12 translate-y-10 scale-75 opacity-0"
+        }`}
+      >
+        <img
+          src="/images/stickers/Recurso24.svg"
+          alt="El servicio como vocación, el café como excusa"
+          className="w-58 -rotate-[6deg] drop-shadow-[0_18px_25px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out hover:-translate-y-2 hover:-rotate-[9deg] hover:scale-[1.03] md:w-40 lg:w-70"
+        />
+      </div>
+
       {/* Fondo patrón */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.60]"
@@ -406,7 +454,7 @@ export default function ContactSection() {
                 rel="noopener noreferrer"
                 className="text-body mt-1 inline-block transition hover:text-[#8D1E29]"
               >
-                @anfitrioncafe
+                @anfitrion.cafe
               </a>
             </div>
 
@@ -539,7 +587,11 @@ export default function ContactSection() {
             </div>
 
             {/* Evento */}
-            <div className="md:col-span-1" data-field="tipoEvento">
+            <div
+              ref={eventFieldRef}
+              className="min-w-0 md:col-span-1"
+              data-field="tipoEvento"
+            >
               <div className="mb-2 flex min-h-6 items-center justify-between gap-3">
                 <label
                   id="evento-label"
@@ -645,7 +697,7 @@ export default function ContactSection() {
             </div>
 
             {/* Fecha */}
-            <div className="md:col-span-2" data-field="fecha">
+            <div className="min-w-0 md:col-span-2" data-field="fecha">
               <label
                 htmlFor="fecha"
                 className="text-label mb-2 block uppercase tracking-[0.16em] text-[#353535]"
@@ -665,7 +717,8 @@ export default function ContactSection() {
                 onChange={handleChange}
                 aria-invalid={Boolean(errors.fecha)}
                 aria-describedby={errors.fecha ? "fecha-error" : undefined}
-                className={`w-full rounded-full border bg-white px-5 py-4 font-text text-sm text-[#2f1f14] outline-none transition ${
+                style={{ WebkitAppearance: "none" }}
+                className={`block w-full min-w-0 max-w-full box-border appearance-none rounded-full border bg-white px-5 py-4 font-text text-base text-[#2f1f14] outline-none transition md:text-sm ${
                   errors.fecha
                     ? "border-red-600 ring-4 ring-red-600/10"
                     : "border-[#8a5a32]/20 focus:border-[#8a5a32] focus:ring-4 focus:ring-[#8a5a32]/10"

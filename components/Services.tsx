@@ -115,18 +115,34 @@ export default function Services() {
         }}
       />
 
-      {/* Sticker */}
-      <img
-        src="/images/stickers/Recurso 26.svg"
-        alt="El servicio como vocación, el café como excusa"
-        className="absolute  right-4 -top-4 z-30 w-40 rotate-[10deg] drop-shadow-[0_18px_25px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out hover:-translate-y-2 hover:rotate-[7deg] hover:scale-[1.03] md:w-24 lg:right-20 lg:w-48"
-      />
-      <img
-        src="/images/stickers/Recurso24.svg"
-        alt="El servicio como vocación, el café como excusa"
-        className="absolute -bottom-8 -left-3 z-30 w-58 -rotate-[6deg] drop-shadow-[0_18px_25px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out hover:-translate-y-2 hover:-rotate-[6deg] hover:scale-[1.03] md:-bottom-10 md:left-8 md:w-40 lg:-bottom-10 lg:left-10 lg:w-70"
-      />
-
+      {/* Sticker superior derecho */}
+      <div
+        className={`pointer-events-none absolute right-4 -top-4 z-30 transition-all delay-500 duration-1000 ease-out md:pointer-events-auto lg:right-20 ${
+          isVisible
+            ? "translate-x-0 translate-y-0 scale-100 opacity-100"
+            : "translate-x-10 -translate-y-10 scale-75 opacity-0"
+        }`}
+      >
+        <img
+          src="/images/stickers/Recurso 26.svg"
+          alt="El servicio como vocación, el café como excusa"
+          className="w-40 rotate-[10deg] drop-shadow-[0_18px_25px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out hover:-translate-y-2 hover:rotate-[7deg] hover:scale-[1.03] md:w-24 lg:w-48"
+        />
+      </div>
+      {/* Sticker inferior izquierdo */}
+      {/* <div
+        className={`pointer-events-none absolute -bottom-8 -left-3 z-30 transition-all delay-700 duration-1000 ease-out md:pointer-events-auto md:-bottom-10 md:left-8 lg:-bottom-10 lg:left-10 ${
+          isVisible
+            ? "translate-x-0 translate-y-0 scale-100 opacity-100"
+            : "-translate-x-10 translate-y-12 scale-75 opacity-0"
+        }`}
+      >
+        <img
+          src="/images/stickers/Recurso24.svg"
+          alt="El servicio como vocación, el café como excusa"
+          className="w-58 -rotate-[6deg] drop-shadow-[0_18px_25px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out hover:-translate-y-2 hover:-rotate-[9deg] hover:scale-[1.03] md:w-40 lg:w-70"
+        />
+      </div> */}
       <div className="relative z-10 mx-auto max-w-7xl">
         {/* Header */}
         <div

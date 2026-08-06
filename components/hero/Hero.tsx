@@ -58,12 +58,28 @@ export default function Hero() {
             >
               <span className="font-button inline-flex items-center gap-4 text-[11px] uppercase tracking-[0.26em] text-[#FFF7EC] transition-colors duration-300 group-hover:text-[#FFF7EC]">
                 Consultar disponibilidad
-                <span
+                <svg
                   aria-hidden="true"
-                  className="text-base transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#8D1E29]"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  className="h-4 w-4 flex-none transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#8D1E29]"
                 >
-                  ↗
-                </span>
+                  <path
+                    d="M7 17L17 7"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+
+                  <path
+                    d="M9 7H17V15"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </span>
 
               {/* Línea */}

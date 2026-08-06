@@ -83,11 +83,19 @@ export default function BenefitsSection() {
       className="relative overflow-visible bg-[#8D1E29] px-5 py-20 text-[#FFF7EC] md:px-10 lg:px-16"
     >
       {/* Sticker superior izquierdo */}
-      <div className="pointer-events-none absolute z-20 -translate-y-[9.5rem] md:pointer-events-auto md:-translate-x-10 md:block">
+      <div
+        className={`pointer-events-none absolute z-20 -translate-y-[9.5rem] transition-all delay-500 duration-1000 ease-out md:pointer-events-auto md:-translate-x-10 md:block ${
+          isVisible
+            ? "translate-x-0 scale-100 opacity-100"
+            : "-translate-x-12 scale-75 opacity-0"
+        }`}
+      >
         <img
           src="/images/stickers/Recurso 3.png"
           alt=""
-          className="w-40 -rotate-[20deg] drop-shadow-[0_12px_20px_rgba(47,31,20,0.25)] lg:w-50"
+          className={`w-40 drop-shadow-[0_12px_20px_rgba(47,31,20,0.25)] transition-transform delay-500 duration-1000 ease-out lg:w-50 ${
+            isVisible ? "-rotate-[20deg]" : "-rotate-[40deg]"
+          }`}
         />
       </div>
 
