@@ -5,7 +5,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative h-[100dvh] min-h-[100dvh] w-full overflow-hidden bg-[#24140D]"
+      className="relative h-[100lvh] min-h-[100lvh] w-full overflow-hidden bg-[#24140D] md:h-screen md:min-h-screen"
     >
       {/* Video responsive */}
       <video
@@ -17,18 +17,21 @@ export default function Hero() {
         aria-hidden="true"
         className="absolute inset-0 h-full w-full object-cover"
       >
+        {/* Mobile */}
         <source
           src="/videos/videomobile.mp4"
           type="video/mp4"
           media="(max-width: 767px)"
         />
 
+        {/* Tablet y desktop */}
         <source
           src="/videos/video3.mp4"
           type="video/mp4"
           media="(min-width: 768px)"
         />
       </video>
+
       {/* Oscurecimiento general */}
       <div className="absolute inset-0 bg-[#24140D]/25 md:bg-[#24140D]/5" />
 
@@ -49,8 +52,8 @@ export default function Hero() {
       />
 
       {/* MOBILE */}
-      <div className="relative z-20 flex h-full items-end px-6 pb-12 pt-32 md:hidden">
-        <div className="w-full">
+      <div className="relative z-20 flex h-full min-h-0 items-end px-6 pb-[calc(3rem+env(safe-area-inset-bottom))] pt-32 md:hidden">
+        <div className="w-full pb-2">
           <span className="font-button text-[10px] uppercase tracking-[0.3em] text-[#F3D7BA]">
             Barra móvil de café
           </span>
@@ -59,44 +62,18 @@ export default function Hero() {
             Tu evento, al mejor servicio.
           </h1>
 
-          {/* <p className="font-subtitle mt-5 max-w-[290px] text-[1.25rem] leading-[1.08] text-[#FFF7EC]/80">
-            Café de especialidad y una experiencia pensada para compartir.
-          </p> */}
-
           <div className="mt-10">
             <Link
               href="#contacto"
               className="group inline-flex flex-col items-start gap-3"
             >
-              <span className="font-button inline-flex items-center gap-4 text-[11px] uppercase tracking-[0.26em] text-[#FFF7EC] transition-colors duration-300 group-hover:text-[#FFF7EC]">
+              <span className="font-button inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.22em] text-[#FFF7EC] transition-colors duration-300 sm:gap-4 sm:text-[11px] sm:tracking-[0.26em]">
                 Consultar disponibilidad
-                <svg
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className="h-4 w-4 flex-none transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#8D1E29]"
-                >
-                  <path
-                    d="M7 17L17 7"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-
-                  <path
-                    d="M9 7H17V15"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <ArrowIcon />
               </span>
 
-              {/* Línea */}
               <span className="relative h-[2px] w-full overflow-hidden bg-[#FFF7EC]/25">
-                <span className="absolute inset-0 origin-left scale-x-0 bg-[#8D1E29] transition-transform duration-3000 ease-out group-hover:scale-x-100" />
+                <span className="absolute inset-0 origin-left scale-x-0 bg-[#8D1E29] transition-transform duration-500 ease-out group-hover:scale-x-100" />
               </span>
             </Link>
           </div>
@@ -107,7 +84,7 @@ export default function Hero() {
       <div className="relative z-20 mx-auto hidden h-full max-w-7xl items-center px-10 pt-24 md:flex lg:px-16">
         <div className="max-w-4xl">
           <span className="font-button text-xs uppercase tracking-[0.3em] text-[#F3D7BA]">
-            Barra movil de café{" "}
+            Barra móvil de café
           </span>
 
           <h1 className="mt-5 max-w-3xl font-title text-[4.8rem] leading-[0.78] text-[#FFF7EC] lg:text-[5.4rem]">
@@ -119,17 +96,11 @@ export default function Hero() {
               href="#contacto"
               className="group inline-flex flex-col items-start gap-3"
             >
-              <span className="font-button inline-flex items-center gap-4 text-[11px] uppercase tracking-[0.26em] text-[#FFF7EC] transition-colors duration-300 group-hover:text-[#FFF7EC]">
+              <span className="font-button inline-flex items-center gap-4 text-[11px] uppercase tracking-[0.26em] text-[#FFF7EC] transition-colors duration-300">
                 Consultar disponibilidad
-                <span
-                  aria-hidden="true"
-                  className="text-base transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#8D1E29]"
-                >
-                  ↗
-                </span>
+                <ArrowIcon />
               </span>
 
-              {/* Línea */}
               <span className="relative h-[2px] w-full overflow-hidden bg-[#FFF7EC]/25">
                 <span className="absolute inset-0 origin-left scale-x-0 bg-[#8D1E29] transition-transform duration-500 ease-out group-hover:scale-x-100" />
               </span>
@@ -138,5 +109,32 @@ export default function Hero() {
         </div>
       </div>
     </section>
+  );
+}
+
+function ArrowIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      className="h-4 w-4 flex-none transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#8D1E29]"
+    >
+      <path
+        d="M7 17L17 7"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      <path
+        d="M9 7H17V15"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
