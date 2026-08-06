@@ -5,7 +5,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative h-[100svh] min-h-[620px] overflow-hidden bg-[#24140d00]"
+      className="relative h-[100dvh] min-h-[100dvh] w-full overflow-hidden bg-[#24140D]"
     >
       {/* Video responsive */}
       <video
@@ -17,14 +17,12 @@ export default function Hero() {
         aria-hidden="true"
         className="absolute inset-0 h-full w-full object-cover"
       >
-        {/* Mobile: hasta 767 px */}
         <source
           src="/videos/videomobile.mp4"
           type="video/mp4"
           media="(max-width: 767px)"
         />
 
-        {/* Tablet y desktop: desde 768 px */}
         <source
           src="/videos/video3.mp4"
           type="video/mp4"
@@ -32,7 +30,7 @@ export default function Hero() {
         />
       </video>
       {/* Oscurecimiento general */}
-      <div className="absolute inset-0 bg-[#24140D]/25 md:bg-[#24140D]/45" />
+      <div className="absolute inset-0 bg-[#24140D]/25 md:bg-[#24140D]/5" />
 
       {/* Gradiente mobile */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#1B0E08]/10 via-transparent to-[#160B06]/95 md:hidden" />
