@@ -3,7 +3,10 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative h-[100lvh] min-h-[100lvh] w-full overflow-hidden bg-[#24140D] md:h-screen md:min-h-screen">
+    <section
+      id="hero"
+      className="relative h-[100lvh] min-h-[100lvh] w-full overflow-hidden bg-[#24140D] md:h-screen md:min-h-screen"
+    >
       {/* Video mobile */}
       <video
         src="/videos/videomobile.mp4"
