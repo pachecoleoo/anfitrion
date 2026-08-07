@@ -3,35 +3,32 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section
-      id="hero"
-      className="relative h-[100lvh] min-h-[100lvh] w-full overflow-hidden bg-[#24140D] md:h-screen md:min-h-screen"
-    >
-      {/* Video responsive */}
+    <section className="relative h-[100lvh] min-h-[100lvh] w-full overflow-hidden bg-[#24140D] md:h-screen md:min-h-screen">
+      {/* Video mobile */}
       <video
+        src="/videos/videomobile.mp4"
         autoPlay
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="auto"
+        poster="/images/hero/poster-mobile.jpg"
         aria-hidden="true"
-        className="absolute inset-0 h-full w-full object-cover"
-      >
-        {/* Mobile */}
-        <source
-          src="/videos/videomobile.mp4"
-          type="video/mp4"
-          media="(max-width: 767px)"
-        />
+        className="absolute inset-0 block h-full w-full object-cover md:hidden"
+      />
 
-        {/* Tablet y desktop */}
-        <source
-          src="/videos/video3.mp4"
-          type="video/mp4"
-          media="(min-width: 768px)"
-        />
-      </video>
-
+      {/* Video desktop */}
+      <video
+        src="/videos/video3.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        poster="/images/hero/poster-desktop.jpg"
+        aria-hidden="true"
+        className="absolute inset-0 hidden h-full w-full object-cover md:block"
+      />
       {/* Oscurecimiento general */}
       <div className="absolute inset-0 bg-[#24140D]/25 md:bg-[#24140D]/5" />
 
