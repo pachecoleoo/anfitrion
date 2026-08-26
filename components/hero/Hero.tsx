@@ -22,7 +22,7 @@ export default function Hero() {
 
       {/* Video desktop */}
       <video
-        src="/videos/video3.mp4"
+        src="/videos/video2.mp4"
         autoPlay
         muted
         loop
@@ -32,14 +32,6 @@ export default function Hero() {
         aria-hidden="true"
         className="absolute inset-0 hidden h-full w-full object-cover md:block"
       />
-      {/* Oscurecimiento general */}
-      <div className="absolute inset-0 bg-[#24140D]/25 md:bg-[#24140D]/5" />
-
-      {/* Gradiente mobile */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1B0E08]/10 via-transparent to-[#160B06]/95 md:hidden" />
-
-      {/* Gradiente desktop */}
-      <div className="absolute inset-0 hidden bg-gradient-to-r from-[#24140D]/80 via-[#24140D]/35 to-transparent md:block" />
 
       {/* Sello desktop */}
       <Image
@@ -87,8 +79,20 @@ export default function Hero() {
             Barra móvil de café
           </span>
 
-          <h1 className="mt-5 max-w-3xl font-title text-[4.8rem] leading-[0.78] text-[#FFF7EC] lg:text-[5.4rem]">
-            Hacemos de tu evento una experiencia
+          <h1 className="mt-5 max-w-[780px] font-title text-[4.5rem] leading-[0.86] tracking-[-0.025em] text-[#FFF7EC] lg:text-[4.2rem]">
+            <span className="block">Tu evento,</span>
+
+            <span
+              className="mt-2 inline-block rotate-[-1deg] text-[#A41F25] transition-transform duration-500 hover:rotate-0"
+              style={{
+                WebkitTextStroke: "4px #FFF7EC",
+                paintOrder: "stroke fill",
+                filter:
+                  "drop-shadow(4px 5px 0 #791E25) drop-shadow(0 12px 20px rgba(0,0,0,0.24))",
+              }}
+            >
+              al mejor servicio.
+            </span>
           </h1>
 
           <div className="mt-10">

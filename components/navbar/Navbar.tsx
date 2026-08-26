@@ -13,7 +13,7 @@ const links = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isNavbarHidden, setIsNavbarHidden] = useState(false);
-
+  const [isScrolled, setIsScrolled] = useState(false);
   const lastScrollY = useRef(0);
   const isNavigating = useRef(false);
   const navigationTimeoutRef = useRef<number | null>(null);
@@ -23,6 +23,7 @@ export default function Navbar() {
       const customEvent = event as CustomEvent<{ scroll: number }>;
 
       const scroll = customEvent.detail?.scroll ?? window.scrollY;
+      setIsScrolled(scroll > 80);
 
       /*
        * Durante una navegación desde el menú no modificamos
@@ -123,127 +124,203 @@ export default function Navbar() {
 
   return (
     <header
-      className="fixed left-0 top-0 z-50 w-full px-4 pt-4 transition-transform duration-500 ease-out md:px-8"
+      className="fixed left-0 top-0 z-50 w-full px-4 pt-4 transition-transform duration-500 ease-out md:px-8 md:pt-6 lg:px-10"
       style={{
         transform: isNavbarHidden ? "translateY(-170px)" : "translateY(0)",
       }}
     >
-      <nav className="mx-auto max-w-7xl">
-        <div className="relative">
-          {/* Sombra inferior */}
-          <div className="absolute inset-x-4 top-4 h-full rounded-[2.5rem] bg-[#3A2116]/20 blur-md" />
+      {/* Sombra superior al salir del hero */}
+      <div
+        className={`pointer-events-none absolute inset-x-0 top-0 -z-10 hidden h-36 bg-gradient-to-b from-[#160B06]/90 via-[#24140D]/55 to-transparent transition-opacity duration-500 md:block ${
+          isScrolled ? "opacity-100" : "opacity-0"
+        }`}
+      />
+      {/* ================================================= */}
+      {/* DESKTOP: elementos flotantes */}
+      {/* ================================================= */}
 
-          {/* Navbar */}
-          <div className="relative rounded-[1.8rem] border-[3px] border-[#FFF7EC] bg-[#E8DFD2]/85 shadow-[0_14px_35px_rgba(47,31,20,0.20)] backdrop-blur-xl">
-            {/* Logo */}
+      <nav className="mx-auto hidden max-w-[1440px] items-start justify-between md:flex">
+        {/* Logo flotante */}
+
+        <a
+          href="#hero"
+          onClick={(event) => handleNavigation(event, "#hero")}
+          aria-label="Volver al inicio"
+          className="relative z-20 transition-transform duration-300 hover:-translate-y-1"
+        >
+          <Image
+            src="/images/stickers/Recurso 22.svg"
+            alt="Anfitrión Café"
+            width={300}
+            height={140}
+            className="h-auto w-[205px] drop-shadow-[0_12px_24px_rgba(47,31,20,0.28)] lg:w-[230px]"
+            priority
+          />
+        </a>
+
+        {/* Botones flotantes */}
+
+        <div className="flex items-center gap-2 pt-2 lg:gap-3">
+          {links.map((link) => (
             <a
-              href="#hero"
-              onClick={(event) => handleNavigation(event, "#hero")}
-              aria-label="Volver al inicio"
-              className="absolute left-[-6px] top-1/2 z-30 -translate-y-[48%] transition-transform duration-300 hover:-translate-y-[52%] md:left-[-14px]"
+              key={link.label}
+              href={link.href}
+              onClick={(event) => handleNavigation(event, link.href)}
+              className="group relative inline-flex min-h-11 items-center justify-center overflow-hidden rounded-full border border-[#FFF7EC]/65 bg-[#E8DFD2]/78 px-4 font-button text-[9px] uppercase tracking-[0.15em] text-[#3A2116] shadow-[0_8px_22px_rgba(36,20,13,0.15)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-[#FFF7EC] hover:bg-[#FFF7EC] hover:text-[#8D1E29] lg:px-5 lg:text-[10px] lg:tracking-[0.17em]"
             >
-              <Image
-                src="/images/stickers/Recurso 22.svg"
-                alt="Anfitrión Café"
-                width={300}
-                height={140}
-                className="h-auto w-[210px] drop-shadow-[0_14px_22px_rgba(47,31,20,0.28)] md:w-[250px]"
-                priority
-              />
+              <span className="relative z-10">{link.label}</span>
+
+              <span className="absolute inset-x-0 bottom-0 h-0 bg-[#8D1E29] transition-all duration-300 group-hover:h-full" />
+
+              <span className="absolute inset-0 z-20 flex items-center justify-center text-[#FFF7EC] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                {link.label}
+              </span>
             </a>
+          ))}
 
-            <div className="relative grid h-14 grid-cols-[1fr_auto] items-center overflow-hidden rounded-[1.8rem] border border-[#8D1E29]/18 px-4 md:h-20 md:grid-cols-[1fr_auto_1fr] md:px-6">
-              {/* Espacio reservado para el logo */}
-              <div className="relative z-10 h-14 w-[180px] justify-self-start md:h-20 md:w-[260px]" />
-
-              {/* Navegación desktop */}
-              <div className="relative z-10 hidden items-center justify-center gap-3 md:flex">
-                {links.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    onClick={(event) => handleNavigation(event, link.href)}
-                    className="group relative rounded-full border border-[#8D1E29]/10 bg-[#FFF7EC]/42 px-5 py-3 font-button text-[11px] uppercase tracking-[0.18em] text-[#3A2116]/80 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#8D1E29]/25 hover:bg-[#FFF7EC]/80 hover:text-[#8D1E29] hover:shadow-[0_8px_18px_rgba(47,31,20,0.10)]"
-                  >
-                    {link.label}
-
-                    <span className="absolute -bottom-1 left-1/2 h-[3px] w-0 -translate-x-1/2 rounded-full bg-[#8D1E29]/45 transition-all duration-300 group-hover:w-6" />
-                  </a>
-                ))}
-              </div>
-
-              {/* Consultar desktop */}
-              <div className="relative z-10 hidden justify-self-end md:block">
-                <BrandButton
-                  href="https://wa.link/wbbw26"
-                  className="!px-5 !py-3 !text-[10px] !tracking-[0.18em]"
-                >
-                  Consultar
-                </BrandButton>
-              </div>
-
-              {/* Botón menú mobile */}
-              <button
-                type="button"
-                onClick={() => setIsOpen((previousValue) => !previousValue)}
-                aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
-                aria-expanded={isOpen}
-                className="relative z-10 flex h-11 w-11 items-center justify-center justify-self-end rounded-full border-[2px] border-[#FFF7EC] bg-[#8D1E29] text-[#FFF7EC] shadow-[0_8px_18px_rgba(47,31,20,0.20)] md:hidden"
-              >
-                <span className="relative h-4 w-5">
-                  <span
-                    className={`absolute left-0 top-0 h-[2px] w-5 rounded-full bg-current transition-all duration-300 ${
-                      isOpen ? "top-2 rotate-45" : ""
-                    }`}
-                  />
-
-                  <span
-                    className={`absolute left-0 top-2 h-[2px] w-5 rounded-full bg-current transition-all duration-300 ${
-                      isOpen ? "opacity-0" : ""
-                    }`}
-                  />
-
-                  <span
-                    className={`absolute left-0 top-4 h-[2px] w-5 rounded-full bg-current transition-all duration-300 ${
-                      isOpen ? "top-2 -rotate-45" : ""
-                    }`}
-                  />
-                </span>
-              </button>
-            </div>
-          </div>
+          <BrandButton
+            href="https://wa.link/wbbw26"
+            className="ml-1 !min-h-11 !px-5 !py-0 !text-[9px] !tracking-[0.17em] shadow-[0_8px_22px_rgba(36,20,13,0.18)] lg:!px-6 lg:!text-[10px]"
+          >
+            Consultar
+          </BrandButton>
         </div>
+      </nav>
 
-        {/* Menú mobile */}
+      {/* ================================================= */}
+      {/* MOBILE: mantenemos el navbar actual */}
+      {/* ================================================= */}
+
+      <nav className="mx-auto md:hidden">
+        <div className="flex items-start justify-between">
+          {/* Logo flotante */}
+
+          <a
+            href="#hero"
+            onClick={(event) => handleNavigation(event, "#hero")}
+            aria-label="Volver al inicio"
+            className="relative z-30 transition-transform duration-300 active:scale-95"
+          >
+            <Image
+              src="/images/stickers/Recurso 22.svg"
+              alt="Anfitrión Café"
+              width={300}
+              height={140}
+              className="h-auto w-[195px] drop-shadow-[0_10px_20px_rgba(0,0,0,0.32)]"
+              priority
+            />
+          </a>
+
+          {/* Botón menú flotante */}
+
+          <button
+            type="button"
+            onClick={() => setIsOpen((previousValue) => !previousValue)}
+            aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-expanded={isOpen}
+            className="relative z-30 mt-1 flex h-12 w-12 rotate-[2deg] items-center justify-center rounded-[11px] border-[3px] border-[#A41F25] bg-[#E8DBCA] text-[#A41F25] ring-[3px] ring-[#FFF7EC] shadow-[4px_5px_0_#791E25,0_12px_24px_rgba(0,0,0,0.25)] transition-all duration-300 hover:rotate-0 hover:-translate-y-0.5 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_#791E25]"
+          >
+            <span className="relative h-4 w-5">
+              <span
+                className={`absolute right-0 top-0 h-[2px] rounded-full bg-current transition-all duration-300 ${
+                  isOpen ? "top-[7px] w-5 rotate-45" : "w-5"
+                }`}
+              />
+
+              <span
+                className={`absolute right-0 top-[7px] h-[2px] w-3.5 rounded-full bg-current transition-all duration-300 ${
+                  isOpen ? "translate-x-2 opacity-0" : ""
+                }`}
+              />
+
+              <span
+                className={`absolute right-0 top-[14px] h-[2px] rounded-full bg-current transition-all duration-300 ${
+                  isOpen ? "top-[7px] w-5 -rotate-45" : "w-5"
+                }`}
+              />
+            </span>
+          </button>
+        </div>
+        {/* Menú desplegable mobile */}
+
         <div
-          className={`overflow-hidden transition-all duration-500 md:hidden ${
+          className={`transition-all duration-500 ease-out ${
             isOpen
-              ? "max-h-[440px] translate-y-0 opacity-100"
-              : "pointer-events-none max-h-0 -translate-y-2 opacity-0"
+              ? "visible max-h-[520px] translate-y-0 opacity-100"
+              : "invisible pointer-events-none max-h-0 -translate-y-3 opacity-0"
           }`}
         >
-          <div className="relative mt-3 rounded-[2rem] border-[4px] border-[#FFF7EC] bg-[#E8DFD2]/90 p-4 shadow-[0_18px_45px_rgba(47,31,20,0.18)] backdrop-blur-xl">
-            <div className="relative rounded-[1.5rem] border-[3px] border-[#FFF7EC] bg-[#E8DFD2]/82 p-3 shadow-[0_14px_35px_rgba(47,31,20,0.20)] backdrop-blur-xl">
+          <div className="ml-auto w-[min(88vw,330px)] px-1 pb-6 pt-5">
+            {/* Panel estilo sticker */}
+
+            <div className="relative overflow-hidden rounded-[18px] border-[3px] border-[#A41F25] bg-[#FFF7EC]/95 p-3 ring-[3px] ring-[#FFF7EC] shadow-[6px_7px_0_#791E25,0_18px_40px_rgba(0,0,0,0.25)] backdrop-blur-xl">
+              {/* Detalle decorativo superior */}
+
+              <div className="mb-3 flex items-center justify-between border-b border-[#A41F25]/15 px-2 pb-3">
+                <span className="font-button text-[9px] uppercase tracking-[0.25em] text-[#791E25]/70">
+                  Menú
+                </span>
+
+                <span className="h-2 w-2 rounded-full bg-[#A41F25] shadow-[0_0_10px_rgba(164,31,37,0.35)]" />
+              </div>
+
+              {/* Enlaces */}
+
               <div className="flex flex-col gap-2">
-                {links.map((link) => (
+                {links.map((link, index) => (
                   <a
                     key={link.label}
                     href={link.href}
                     onClick={(event) => handleNavigation(event, link.href)}
-                    className="rounded-full border border-[#8D1E29]/10 bg-[#FFF7EC]/45 px-5 py-3 font-button text-xs uppercase tracking-[0.18em] text-[#3A2116] transition-colors duration-300 hover:bg-[#FFF7EC] hover:text-[#8D1E29]"
+                    className="group flex items-center justify-between rounded-[10px] border border-[#A41F25]/15 bg-[#E8DBCA]/50 px-4 py-3.5 font-button text-[10px] uppercase tracking-[0.17em] text-[#3A2116] transition-all duration-300 hover:translate-x-1 hover:border-[#A41F25] hover:bg-[#A41F25] hover:text-[#FFF7EC]"
                   >
-                    {link.label}
+                    <span>{link.label}</span>
+
+                    <span className="flex items-center gap-3">
+                      <span className="text-[8px] tracking-normal opacity-35 group-hover:opacity-60">
+                        0{index + 1}
+                      </span>
+
+                      <svg
+                        aria-hidden="true"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5"
+                      >
+                        <path
+                          d="M5 12H19"
+                          stroke="currentColor"
+                          strokeWidth="1.7"
+                          strokeLinecap="round"
+                        />
+
+                        <path
+                          d="M14 7L19 12L14 17"
+                          stroke="currentColor"
+                          strokeWidth="1.7"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
                   </a>
                 ))}
               </div>
-              <div className="mt-4">
+
+              {/* Botón principal */}
+
+              <div className="mt-3 border-t border-[#A41F25]/15 pt-3">
                 <BrandButton
                   href="https://wa.link/wbbw26"
-                  className="w-full !px-5 !py-3 !text-[10px]"
+                  className="w-full !rounded-[30px] !px-5 !py-3.5 !text-[10px] !tracking-[0.2em]"
                 >
                   Consultar
                 </BrandButton>
-              </div>{" "}
+              </div>
+
+              {/* Mancha roja decorativa */}
+
+              <div className="pointer-events-none absolute -bottom-10 -right-10 h-24 w-24 rounded-full bg-[#A41F25]/8 blur-2xl" />
             </div>
           </div>
         </div>
