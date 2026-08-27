@@ -9,7 +9,7 @@ export default function Hero() {
     >
       {/* Video mobile */}
       <video
-        src="/videos/videomobile.mp4"
+        src="/videos/cine.mp4"
         autoPlay
         muted
         loop
@@ -22,7 +22,7 @@ export default function Hero() {
 
       {/* Video desktop */}
       <video
-        src="/videos/video2.mp4"
+        src="/videos/video3.mp4"
         autoPlay
         muted
         loop

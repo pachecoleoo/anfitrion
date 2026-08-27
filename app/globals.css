@@ -278,3 +278,30 @@ body {
 body {
   margin: 0;
 }
+
+/* //marcas */
+@keyframes brands-marquee-clean {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.brands-track-clean {
+  animation: brands-marquee-clean 35s linear infinite;
+  will-change: transform;
+}
+
+.brands-track-clean:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brands-track-clean {
+    animation: none;
+    transform: none;
+  }
+}
