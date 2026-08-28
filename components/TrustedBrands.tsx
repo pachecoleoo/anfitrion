@@ -3,7 +3,7 @@ import Image from "next/image";
 const brands = [
   {
     name: "Vista Oil & Gas",
-    logo: "/images/marcas/vista.svg",
+    logo: "/images/marcas/vista.png",
   },
 
   // Agregá las próximas marcas de esta forma:
@@ -75,18 +75,14 @@ export default function TrustedBrands() {
 
         {/* Carrusel */}
 
-        <div className="relative mt-14 overflow-hidden py-10 md:mt-20 md:py-12">
-          {/* Desvanecimiento del lado izquierdo */}
+        <div className="brands-viewport relative mt-14 overflow-x-auto overflow-y-hidden py-10 md:mt-20 md:overflow-hidden md:py-12">
+          {/* Degradados: solamente se muestran en desktop */}
 
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-16 bg-gradient-to-r from-[#353535] via-[#353535]/90 to-transparent md:w-40" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-20 hidden w-40 bg-gradient-to-r from-[#353535] via-[#353535]/90 to-transparent md:block" />
 
-          {/* Desvanecimiento del lado derecho */}
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-20 hidden w-40 bg-gradient-to-l from-[#353535] via-[#353535]/90 to-transparent md:block" />
 
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-16 bg-gradient-to-l from-[#353535] via-[#353535]/90 to-transparent md:w-40" />
-
-          {/* Logos en movimiento */}
-
-          <div className="brands-track-clean flex w-max items-center">
+          <div className="brands-track-clean flex w-max items-center px-6 md:px-0">
             <BrandGroup brands={brands} />
 
             <BrandGroup brands={brands} duplicate />
@@ -115,31 +111,25 @@ function BrandGroup({ brands, duplicate = false }: BrandGroupProps) {
   return (
     <div
       aria-hidden={duplicate}
-      className="flex flex-none items-center gap-16 pr-16 md:gap-28 md:pr-28"
+      className="flex flex-none items-center gap-10 pr-10 md:gap-28 md:pr-28"
     >
       {brands.map((brand, index) => (
         <div
           key={`${duplicate ? "duplicate-" : ""}${brand.name}-${index}`}
-          className="group relative flex h-24 w-40 flex-none items-center justify-center md:h-28 md:w-52"
+          className="group relative flex h-24 w-36 flex-none items-center justify-center md:h-28 md:w-52"
         >
-          {/* Luz suave al pasar el mouse */}
+          {/* Luz suave al interactuar */}
 
-          <span className="pointer-events-none absolute inset-4  bg-[#A41F25]/0 blur-2xl transition-colors duration-500 " />
-
-          {/* Logo */}
+          <span className="pointer-events-none absolute inset-4 bg-[#A41F25]/0 blur-2xl transition-colors duration-500 group-hover:bg-[#A41F25]/15" />
 
           <Image
             src={brand.logo}
             alt={duplicate ? "" : `Logo de ${brand.name}`}
             width={220}
             height={110}
-            sizes="(max-width: 768px) 160px, 210px"
-            className="relative z-10 max-h-[82px] w-full object-contain  grayscale transition-all duration-500 group-hover:scale-105 group-hover:opacity-100 group-hover:grayscale-0 md:max-h-[96px]"
-            style={{
-              filter: `
-             
-              `,
-            }}
+            draggable={false}
+            sizes="(max-width: 768px) 144px, 210px"
+            className="pointer-events-none relative z-10 max-h-[78px] w-full select-none object-contain grayscale opacity-75 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100 group-hover:grayscale-0 md:max-h-[96px]"
           />
         </div>
       ))}

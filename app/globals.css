@@ -290,14 +290,50 @@ body {
   }
 }
 
+/* Contenedor desplazable con dedo */
+
+.brands-viewport {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  touch-action: pan-x;
+  cursor: grab;
+}
+
+.brands-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+/* Movimiento automático en mobile y desktop */
+
 .brands-track-clean {
   animation: brands-marquee-clean 35s linear infinite;
   will-change: transform;
 }
 
-.brands-track-clean:hover {
+/*
+Cuando el usuario toca o arrastra:
+se pausa la animación y queda habilitado el movimiento manual.
+*/
+
+.brands-viewport:active {
+  cursor: grabbing;
+}
+
+.brands-viewport:active .brands-track-clean {
   animation-play-state: paused;
 }
+
+/* Pausa con el mouse en desktop */
+
+@media (hover: hover) {
+  .brands-viewport:hover .brands-track-clean {
+    animation-play-state: paused;
+  }
+}
+
+/* Accesibilidad */
 
 @media (prefers-reduced-motion: reduce) {
   .brands-track-clean {
