@@ -279,65 +279,23 @@ body {
   margin: 0;
 }
 
-/* //marcas */
-@keyframes brands-marquee-clean {
-  from {
-    transform: translateX(0);
-  }
+/* Carrusel de marcas */
 
-  to {
-    transform: translateX(-50%);
-  }
-}
+/* Carrusel infinito de marcas */
 
-/* Contenedor desplazable con dedo */
-
-.brands-viewport {
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  touch-action: pan-x;
+.brands-marquee {
+  width: 100%;
   cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
 }
 
-.brands-viewport::-webkit-scrollbar {
-  display: none;
-}
-
-/* Movimiento automático en mobile y desktop */
-
-.brands-track-clean {
-  animation: brands-marquee-clean 35s linear infinite;
-  will-change: transform;
-}
-
-/*
-Cuando el usuario toca o arrastra:
-se pausa la animación y queda habilitado el movimiento manual.
-*/
-
-.brands-viewport:active {
+.brands-marquee:active {
   cursor: grabbing;
 }
 
-.brands-viewport:active .brands-track-clean {
-  animation-play-state: paused;
-}
-
-/* Pausa con el mouse en desktop */
-
-@media (hover: hover) {
-  .brands-viewport:hover .brands-track-clean {
-    animation-play-state: paused;
-  }
-}
-
-/* Accesibilidad */
-
-@media (prefers-reduced-motion: reduce) {
-  .brands-track-clean {
-    animation: none;
-    transform: none;
-  }
+.brands-marquee img {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
 }

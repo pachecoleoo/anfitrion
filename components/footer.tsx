@@ -1,5 +1,4 @@
 import Link from "next/link";
-import BrandButton from "./BrandButton";
 import Image from "next/image";
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -76,10 +75,10 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="#galeria"
+                  href="#beneficios"
                   className="transition hover:text-[#c98b55]"
                 >
-                  Galería
+                  Beneficios
                 </Link>
               </li>
               <li>
@@ -153,22 +152,32 @@ export default function Footer() {
         </div>
 
         {/* Línea inferior */}
-        <div className="flex flex-col gap-4 py-7 text-sm text-[#f5efe5]/55 md:flex-row md:items-center md:justify-between">
+        <div className="flex items-left mt-4 gap-10 py-2 text-sm text-[#f5efe5]/55 md:flex-row md:items-center md:justify-between">
           <p className="font-text">
             © {currentYear} Anfitrión Café. Todos los derechos reservados.
           </p>
 
-          <p className="font-text">
-            Diseño y desarrollo por{" "}
+          <div className="flex items-center justify-center gap-3 -mt-2  font-text text-sm text-[#E8DBCA]/60">
+            <span>Diseño y desarrollo por</span>
+
+            <span className="h-5 w-px bg-[#E8DBCA]/20" />
+
             <a
-              href="https://www.instagram.com/pachecoleoo"
+              href="https://www.instagram.com/leonardowebservices"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#c98b55] transition hover:text-[#f5efe5]"
+              aria-label="Instagram de Leonardo Web Services"
+              className="group inline-flex items-center"
             >
-              Leo Pacheco
+              <Image
+                src="/images/marcas/leonardo.png"
+                alt="Leonardo Web Services"
+                width={100}
+                height={100}
+                className="w-[80px] w-auto object-contain opacity-70 transition-all duration-300 group-hover:scale-105 group-hover:opacity-100"
+              />
             </a>
-          </p>
+          </div>
         </div>
       </div>
     </footer>
